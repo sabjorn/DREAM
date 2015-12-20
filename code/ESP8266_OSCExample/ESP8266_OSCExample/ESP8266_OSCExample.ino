@@ -16,26 +16,43 @@ Max patch uses CNMAT OSC externals*/
 #include <OSCBundle.h>
 
 #include <Adafruit_NeoPixel.h>
-
 #include "wifiCred.h" //used to store SSID and PASS
 
+/*Defines for changing compile time behaviour*/
+//#define BUNDLE //comment out to use Message example
+//#define ACCESSPOINT //comment out to make local access point
+//===============================//
+
+/*WIFI Credentials*/
+// #define SSID "" //your network SSID (name) 
+// #define PASS "password" //your network password
+//===============================//
+
+/*Neopixels*/
 #define PIXPIN 15
 #define NUMPIX 9
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIX, PIXPIN, NEO_GRB + NEO_KHZ800);
+//===============================//
 
 #define BLINKPIN 14 //blinking LED pin
 
-//#define BUNDLE //comment out to use Message example
-// #define SSID "" //your network SSID (name) 
-// #define PASS "password" //your network password
-
 int status = 0;     // the Wifi radio's status
 
+/*Static IP*/
+//Currently not used
 IPAddress ip(192, 168, 0, 22);
-//IPAddress outIp(192, 168, 1, 101); //could be used to hardcode IP of ESP
-IPAddress outIp(192,168, 0, 13);
+IPAddress gateway(192,168,1,1);
+IPAddress subnet(255,255,255,0);
+//===============================//
 
-//port numbers
+//set IP address of receiving system
+#ifdef ACCESSPOINT
+  IPAddress outIp(192,168,4,2); //for use as 'access point'
+#else
+  IPAddress outIp(192,168, 0, 13); //set IP of 
+#endif
+
+/*port numbers*/
 const unsigned int inPort = 8888;
 const unsigned int outPort = 9999;
 
@@ -72,17 +89,25 @@ void setup() {
   }
   
   pinMode(BLINKPIN, OUTPUT);
- 
-  // attempt to connect to Wifi network:
-  while ( status != WL_CONNECTED) { 
-    Serial.print("Attempting to connect to WPA SSID: ");
-    Serial.println(SSID);
-    // Connect to WPA/WPA2 network: 
-    WiFi.mode(WIFI_STA);   
-    status = WiFi.begin(SSID, PASS);
-    // wait 10 seconds for connection:
-    delay(1000);
-  }
+  
+  #ifdef ACCESSPOINT
+    WiFi.mode(WIFI_AP); // make wireless access point
+  #else
+    // attempt to connect to Wifi network:
+    while ( status != WL_CONNECTED) 
+    { 
+      Serial.print("Attempting to connect to WPA SSID: ");
+      Serial.println(SSID);
+      
+      // Connect to WPA/WPA2 network: 
+      WiFi.mode(WIFI_STA);   
+      status = WiFi.begin(SSID, PASS);
+      
+      //WiFi.config(ip, gateway, subnet); //experimental
+      // wait 10 seconds for connection:
+      delay(1000);
+    }
+  #endif
 
   // you're connected now, so print out the data:
   Serial.println("You're connected to the network");
