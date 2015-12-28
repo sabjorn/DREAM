@@ -113,16 +113,36 @@ void LEDcontrol(OSCMessage &msg)
 /*Neopixel Control Callback*/
 void pix(OSCMessage &msg)
 {
-  uint8_t r, g, b = 0;
-  if (msg.isInt(0))
-    r = msg.getInt(0);
-  if (msg.isInt(1))
-    g = msg.getInt(1);
-  if (msg.isInt(2))
-    b = msg.getInt(2);
+  uint8_t pxl, r, g, b = 0;
   
-  for (uint16_t i = 0; i < NUMPIX; i++)
-    strip.setPixelColor(i, r, g, b);
+  // change the colour of ALL pixels simultaneously
+  if(msg.size() < 4)
+  {
+    if (msg.isInt(0))
+      r = msg.getInt(0);
+    if (msg.isInt(1))
+      g = msg.getInt(1);
+    if (msg.isInt(2))
+      b = msg.getInt(2);
+    
+    for (uint16_t i = 0; i < NUMPIX; i++)
+      strip.setPixelColor(i, r, g, b);
+  }
+
+  // change the colour of ONE pixel
+  else
+  {
+    if (msg.isInt(0))
+      pxl = msg.getInt(0)
+    if (msg.isInt(1))
+      r = msg.getInt(1);
+    if (msg.isInt(2))
+      g = msg.getInt(2);
+    if (msg.isInt(3))
+      b = msg.getInt(3);
+
+    strip.setPixelColor(pxl, r, g, b);
+  }
   strip.show();
 }
 //===========================================================================//
