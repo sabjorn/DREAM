@@ -133,7 +133,7 @@ void pix(OSCMessage &msg)
   else
   {
     if (msg.isInt(0))
-      pxl = msg.getInt(0)
+      pxl = msg.getInt(0);
     if (msg.isInt(1))
       r = msg.getInt(1);
     if (msg.isInt(2))
