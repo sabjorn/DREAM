@@ -77,7 +77,8 @@ IPAddress subnet(255,255,255,0);
 #ifdef ACCESSPOINT
   IPAddress outIp(192,168,4,2); //for use as 'access point'
 #else
-  IPAddress outIp(192,168, 0, 13); //set IP of 
+  //IPAddress outIp(192,168, 0, 13); //set IP of 
+  IPAddress outIp(192, 168, 1, 124);
 #endif
 //===========================================================================//
 

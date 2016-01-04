@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 518.0, 131.0, 383.0, 245.0 ],
+		"rect" : [ 518.0, 131.0, 481.0, 245.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -32,13 +32,55 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"frgb" : 0.0,
-					"id" : "obj-6",
-					"linecount" : 2,
+					"id" : "obj-9",
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 30.5, 74.0, 139.0, 33.0 ],
-					"text" : "turn On/Off LED on GPIO 14"
+					"patching_rect" : [ 213.0, 133.0, 176.0, 20.0 ],
+					"text" : "Shows the connection is active"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-1",
+					"linecount" : 2,
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 163.0, 133.0, 50.0, 31.0 ],
+					"text" : "41714023"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-3",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 194.0, 106.0, 97.0, 20.0 ],
+					"text" : "OSC-route /time"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-5",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 194.0, 76.0, 99.0, 20.0 ],
+					"text" : "udpreceive 9999"
 				}
 
 			}
@@ -47,13 +89,13 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"frgb" : 0.0,
-					"id" : "obj-4",
-					"linecount" : 4,
+					"id" : "obj-6",
+					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 217.0, 175.0, 150.0, 60.0 ],
-					"text" : "There is currently no example code for the ESP8266 setup to work with this code"
+					"patching_rect" : [ 30.5, 74.0, 139.0, 33.0 ],
+					"text" : "turn On/Off LED on GPIO14 (active LOW)"
 				}
 
 			}
@@ -67,7 +109,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 217.0, 11.5, 150.0, 60.0 ],
+					"patching_rect" : [ 327.0, 175.0, 150.0, 60.0 ],
 					"text" : "If OSC Messages are used in ESP8266 code, this is an example of how to communicate via Max."
 				}
 
@@ -136,8 +178,8 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 9.5, 211.0, 160.0, 20.0 ],
-					"text" : "udpsend 192.168.0.27 8888"
+					"patching_rect" : [ 9.5, 211.0, 167.0, 20.0 ],
+					"text" : "udpsend 192.168.1.125 8888"
 				}
 
 			}
@@ -153,6 +195,24 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-1", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-3", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-3", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-5", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-29", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -161,7 +221,11 @@
 
 			}
  ],
-		"dependency_cache" : [  ]
+		"dependency_cache" : [ 			{
+				"name" : "OSC-route.mxo",
+				"type" : "iLaX"
+			}
+ ]
 	}
 
 }
