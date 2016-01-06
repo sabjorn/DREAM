@@ -11,6 +11,7 @@ Max patch uses CNMAT OSC externals*/
 #include <WiFiClientSecure.h>
 #include <WiFiServer.h>
 #include <WiFiUdp.h>
+#include <ESP8266mDNS.h>
 
 #include <OSCMessage.h>
 #include <OSCBundle.h>
@@ -58,7 +59,7 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 
 /*Neopixels*/
 #define PIXPIN 15
-#define NUMPIX 9
+#define NUMPIX 8
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIX, PIXPIN, NEO_GRB + NEO_KHZ800);
 //===========================================================================//
 
@@ -76,9 +77,11 @@ IPAddress subnet(255,255,255,0);
 //set IP address of receiving system
 #ifdef ACCESSPOINT
   IPAddress outIp(192,168,4,2); //for use as 'access point'
+
 #else
-  //IPAddress outIp(192,168, 0, 13); //set IP of 
-  IPAddress outIp(192, 168, 1, 124);
+  //IPAddress outIp(192,168, 0, 13); //set IP of SPECIFIC receiver
+  //IPAddress outIp(192, 168, 1, 108);
+  IPAddress outIp(255, 255, 255, 255); //broadcast UDP
 #endif
 //===========================================================================//
 
@@ -157,7 +160,7 @@ void setup() {
 
   // join I2C bus (I2Cdev library doesn't do this automatically)
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
-      Wire.begin(12, 13);
+      Wire.begin(13, 12);
       int TWBR = 24; // 400kHz I2C clock (200kHz if CPU is 8MHz). Comment this line if having compilation difficulties with TWBR.
   #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
       Fastwire::setup(400, true);
@@ -211,18 +214,20 @@ void setup() {
       Serial.print("Attempting to connect to WPA SSID: ");
       Serial.println(SSID);
       
+      WiFi.hostname("testname");
       // Connect to WPA/WPA2 network: 
       WiFi.mode(WIFI_STA);   
       status = WiFi.begin(SSID, PASS);
       
       //WiFi.config(ip, gateway, subnet); //experimental
-      // wait 10 seconds for connection:
+      // wait 1 seconds for connection:
       delay(1000);
     }
   #endif
 
   // you're connected now, so print out the data:
   Serial.println("You're connected to the network");
+  digitalWrite(BLINKPIN, HIGH); //LED turns off when WIFI connects
 
   Udp.begin(inPort); //input Udp stream
 
