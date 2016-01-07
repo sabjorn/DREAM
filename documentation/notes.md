@@ -1,7 +1,11 @@
 Notes:
 To Do: draw diagram of dev-board.
 
-Jan 5/16
+Jan 7/16
+* Setup another board on the network to display via NeoPixel LEDs. Originally hard coded the number of LEDs on the board to be 100 BUT the latency for updating that many seems to be too much.
+** Possible soultion is to have the total number of LEDs be larger than necessary (100~) and have an endpoint (i.e. */length*) to adjust the number of pixels updated by */pix*.
+
+Jan 6/16
 * peak current ussage: 
 ** LEDs off (transmitting): 97mA~
 ** LEDs on full white: 150mA~

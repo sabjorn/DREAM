@@ -292,8 +292,10 @@ void loop() {
      msgIn.fill(Udp.read());
 
     if(!msgIn.hasError())
+    {
       msgIn.dispatch("/led", LEDcontrol);
       msgIn.dispatch("/pix", pix);
+    }
   }
   #endif
 
@@ -327,5 +329,4 @@ void loop() {
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
   }
 
-  //delay(20);
 }
