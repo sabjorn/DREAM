@@ -19,6 +19,9 @@ Max patch uses CNMAT OSC externals*/
 #include <Adafruit_NeoPixel.h>
 #include "wifiCred.h" //used to store SSID and PASS
 
+// Unique ID endpoint for each instance
+#define ID "/1"
+
 /*Neopixels*/
 #define PIXPIN 15
 #define NUMPIX 9
@@ -124,7 +127,7 @@ void loop() {
 	// wait for MPU interrupt or extra packet(s) available
 	while (curret_time - old_time > delay_time) {
 	  // outgoing message to indicate network connectivity
-	  OSCMessage status("/time");
+	  OSCMessage status(ID"/time");
 	  status.add(int(micros()));
 	  Udp.beginPacket(outIp, outPort);
 	  status.send(Udp); // send the bytes to the SLIP stream
@@ -144,6 +147,6 @@ void loop() {
 	     msgIn.fill(Udp.read());
 
 	    if(!msgIn.hasError())
-	      msgIn.dispatch("/pix", pix);
+	      msgIn.dispatch(ID"/pix", pix);
 	  }
 }

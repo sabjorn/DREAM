@@ -19,6 +19,9 @@ Max patch uses CNMAT OSC externals*/
 #include <Adafruit_NeoPixel.h>
 #include "wifiCred.h" //used to store SSID and PASS
 
+// Unique ID endpoint for each instance
+#define ID "/2"
+
 //MPU
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
@@ -246,14 +249,14 @@ void loop() {
     // wait for MPU interrupt or extra packet(s) available
     while (!mpuInterrupt && fifoCount < packetSize && curret_time - old_time > delay_time) {
       // outgoing message to indicate network connectivity
-      OSCMessage status("/time");
+      OSCMessage status(ID"/time");
       status.add(int(micros()));
       Udp.beginPacket(outIp, outPort);
       status.send(Udp); // send the bytes to the SLIP stream
       Udp.endPacket(); // mark the end of the OSC Packet
       status.empty(); // free space occupied by message
 
-      OSCMessage gyro_ypr("/ypr");
+      OSCMessage gyro_ypr(ID"/ypr");
       gyro_ypr.add(ypr[0]).add(ypr[1]).add(ypr[2]);
       Udp.beginPacket(outIp, outPort);
       gyro_ypr.send(Udp); // send the bytes to the SLIP stream
@@ -276,8 +279,8 @@ void loop() {
 
       if(!bundleIn.hasError())
       {
-        bundleIn.dispatch("/led", LEDcontrol);
-        bundleIn.dispatch("/pix", pix);
+        bundleIn.dispatch(ID"/led", LEDcontrol);
+        bundleIn.dispatch(ID"/pix", pix);
       }
    }
 
@@ -293,8 +296,8 @@ void loop() {
 
     if(!msgIn.hasError())
     {
-      msgIn.dispatch("/led", LEDcontrol);
-      msgIn.dispatch("/pix", pix);
+      msgIn.dispatch(ID"/led", LEDcontrol);
+      msgIn.dispatch(ID"/pix", pix);
     }
   }
   #endif
