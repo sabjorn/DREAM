@@ -19,6 +19,8 @@ Max patch uses CNMAT OSC externals*/
 #include <Adafruit_NeoPixel.h>
 #include "wifiCred.h" //used to store SSID and PASS
 
+#include <Math.h>
+
 // Unique ID endpoint for each instance
 #define ID "/2"
 
@@ -117,6 +119,7 @@ void LEDcontrol(OSCMessage &msg)
 }
 //===========================================================================//
 
+
 /*Neopixel Control Callback*/
 void pix(OSCMessage &msg)
 {
@@ -153,6 +156,10 @@ void pix(OSCMessage &msg)
   strip.show();
 }
 //===========================================================================//
+
+float pi2float(float in){
+  return ((in / M_PI) + 1) / 2;
+}
 
 void setup() {
   //Initialize serial and wait for port to open:
@@ -248,20 +255,15 @@ void loop() {
     //Scheduler
     // wait for MPU interrupt or extra packet(s) available
     while (!mpuInterrupt && fifoCount < packetSize && curret_time - old_time > delay_time) {
-      // outgoing message to indicate network connectivity
-      OSCMessage status(ID"/time");
-      status.add(int(micros()));
-      Udp.beginPacket(outIp, outPort);
-      status.send(Udp); // send the bytes to the SLIP stream
-      Udp.endPacket(); // mark the end of the OSC Packet
-      status.empty(); // free space occupied by message
+      //declare a bundle
+      OSCBundle bndl;
+      bndl.add(ID"/time").add((int32_t)micros()); //time since active :: indicates a connection
+      bndl.add(ID"/ypr").add(pi2float(ypr[0])).add(pi2float(ypr[1])).add(pi2float(ypr[2])); // yaw/pitch/roll
 
-      OSCMessage gyro_ypr(ID"/ypr");
-      gyro_ypr.add(ypr[0]).add(ypr[1]).add(ypr[2]);
       Udp.beginPacket(outIp, outPort);
-      gyro_ypr.send(Udp); // send the bytes to the SLIP stream
+      bndl.send(Udp); // send the bytes to the SLIP stream
       Udp.endPacket(); // mark the end of the OSC Packet
-      gyro_ypr.empty(); // free space occupied by message
+      bndl.empty(); // empty the bundle to free room for a new one
 
       old_time = millis();
     }
@@ -296,6 +298,7 @@ void loop() {
 
     if(!msgIn.hasError())
     {
+      Serial.println("DISPATCHING!");
       msgIn.dispatch(ID"/led", LEDcontrol);
       msgIn.dispatch(ID"/pix", pix);
     }

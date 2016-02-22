@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 25.0, 69.0, 517.0, 397.0 ],
+		"rect" : [ 100.0, 100.0, 517.0, 397.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -280,7 +280,7 @@
 					"id" : "obj-20",
 					"maxclass" : "flonum",
 					"maximum" : 1.0,
-					"minimum" : 0.0,
+					"minimum" : -1.0,
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
@@ -296,7 +296,7 @@
 					"id" : "obj-19",
 					"maxclass" : "flonum",
 					"maximum" : 1.0,
-					"minimum" : 0.0,
+					"minimum" : -1.0,
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
@@ -312,7 +312,7 @@
 					"id" : "obj-18",
 					"maxclass" : "flonum",
 					"maximum" : 1.0,
-					"minimum" : 0.0,
+					"minimum" : -1.0,
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
@@ -455,7 +455,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
 					"patching_rect" : [ 34.0, 224.0, 266.0, 20.0 ],
-					"text" : "dreamIO 255.255.255.255 /test"
+					"text" : "dreamIO 255.255.255.255 /someUniqID"
 				}
 
 			}
