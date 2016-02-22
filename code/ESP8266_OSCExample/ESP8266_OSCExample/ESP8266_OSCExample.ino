@@ -61,14 +61,18 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 // #define SSID "" //your network SSID (name) 
 // #define PASS "password" //your network password
 //===========================================================================//
+#define SDA_PIN 13
+#define SCL_PIN 12
 
 /*Neopixels*/
-#define PIXPIN 15
+#define PIX_PIN 15
 #define NUMPIX 8
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIX, PIXPIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIX, PIX_PIN, NEO_GRB + NEO_KHZ800);
 //===========================================================================//
 
-#define BLINKPIN 14 //blinking LED pin
+#define WIFISTATUS_PIN 14 //blinking LED pin
+int gpios[] = {0, 2, 4, 5, 14, 16}; //GPIO pins
+int gpio_len = 6;
 
 int status = 0;     // the Wifi radio's status
 
@@ -110,22 +114,24 @@ void dmpDataReady() {
 //===========================================================================//
 
 /*GPIO Control Callback*/
-void LEDcontrol(OSCMessage &msg)
+void gpio(OSCMessage &msg)
 {
-  if (msg.isInt(0))
+  if (msg.isInt(0) && msg.isInt(1))
   {
-    digitalWrite(BLINKPIN, !msg.getInt(0)); //LED is on LOW
+    for(uint8_t i = 0; i<gpio_len; i++){
+      if(msg.getInt(0) == gpios[i])
+        digitalWrite(gpios[i], msg.getInt(1)); //LED is on LOW
+    }
   }
 }
 //===========================================================================//
 
-
 /*Neopixel Control Callback*/
-void pix(OSCMessage &msg)
+void leds(OSCMessage &msg)
 {
   uint8_t n, r, g, b = 0;
   
-  // change the colour of ALL pixels simultaneously
+  // change the colour of ALL pixelsels simultaneously
   if(msg.size() < 4)
   {
     if (msg.isInt(0))
@@ -157,6 +163,18 @@ void pix(OSCMessage &msg)
 }
 //===========================================================================//
 
+//Callback to change delay_time
+void update_interval(OSCMessage &msg)
+{
+  if(msg.isInt(0))
+    delay_time = long(msg.getInt(0));
+  if(msg.isFloat(0))
+    delay_time = long(msg.getFloat(0));
+
+  if (delay_time < 10)
+    delay_time = 10;
+}
+
 float pi2float(float in){
   return ((in / M_PI) + 1) / 2;
 }
@@ -168,9 +186,15 @@ void setup() {
     ; // wait for serial port to connect. Needed for Leonardo only
   }
 
+  //setup GPIOs
+  for(uint8_t i = 0; i<gpio_len; i++)
+  {
+    pinMode(gpios[i], OUTPUT);
+  }
+
   // join I2C bus (I2Cdev library doesn't do this automatically)
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
-      Wire.begin(13, 12);
+      Wire.begin(SDA_PIN, SCL_PIN);
       int TWBR = 24; // 400kHz I2C clock (200kHz if CPU is 8MHz). Comment this line if having compilation difficulties with TWBR.
   #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
       Fastwire::setup(400, true);
@@ -213,7 +237,6 @@ void setup() {
 
   //===========================================================================//
   
-  pinMode(BLINKPIN, OUTPUT);
   
   #ifdef ACCESSPOINT
     WiFi.mode(WIFI_AP); // make wireless access point
@@ -237,7 +260,7 @@ void setup() {
 
   // you're connected now, so print out the data:
   Serial.println("You're connected to the network");
-  digitalWrite(BLINKPIN, HIGH); //LED turns off when WIFI connects
+  digitalWrite(WIFISTATUS_PIN, HIGH); //LED turns off when WIFI connects
 
   Udp.begin(inPort); //input Udp stream
 
@@ -281,8 +304,9 @@ void loop() {
 
       if(!bundleIn.hasError())
       {
-        bundleIn.dispatch(ID"/led", LEDcontrol);
-        bundleIn.dispatch(ID"/pix", pix);
+        bundleIn.dispatch(ID"/gpio", gpio);
+        bundleIn.dispatch(ID"/leds", leds);
+        bundleIn.dispatch(ID"/update", update_interval);
       }
    }
 
@@ -298,9 +322,9 @@ void loop() {
 
     if(!msgIn.hasError())
     {
-      Serial.println("DISPATCHING!");
-      msgIn.dispatch(ID"/led", LEDcontrol);
-      msgIn.dispatch(ID"/pix", pix);
+      msgIn.dispatch(ID"/gpio", gpio);
+      msgIn.dispatch(ID"/leds", leds);
+      msgIn.dispatch(ID"/update", update_interval);
     }
   }
   #endif
