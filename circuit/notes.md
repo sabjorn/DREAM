@@ -1,0 +1,1 @@
+All resistors are size `SMD 0603`. They have a maximum dissipation of .1W and none of the resistors will get near this except the resistors for the `WS2812`, For these size `SMD 1206` is used because, at 150R, the power dissipation is .166W (at 5V) and `1206` has a maximum dissipation of .25W.
