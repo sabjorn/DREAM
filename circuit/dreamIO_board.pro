@@ -1,4 +1,4 @@
-update=Monday, April 04, 2016 'pmt' 06:11:55 pm
+update=Sunday, April 17, 2016 'pmt' 02:56:14 pm
 version=1
 last_client=kicad
 [pcbnew]
@@ -20,11 +20,21 @@ SolderMaskMinWidth=0.000000000000
 DrawSegmentWidth=0.200000000000
 BoardOutlineThickness=0.100000000000
 ModuleOutlineThickness=0.150000000000
+[general]
+version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
 [cvpcb]
 version=1
 NetIExt=net
-[general]
-version=1
 [eeschema]
 version=1
 LibDir=/Users/sabjorn/Dropbox/design/electronics/kicad/libraries;/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/kicad-parts
@@ -68,13 +78,4 @@ LibName36=kicad-parts/libraries/texas-instruments
 LibName37=kicad-libs/shardy
 LibName38=hebi/KiCAD/mpu-6050
 LibName39=kicad-ESP8266/ESP8266
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=60
+LibName40=madworm_WS2812.pretty/Schematic-Symbol/ws2812b
