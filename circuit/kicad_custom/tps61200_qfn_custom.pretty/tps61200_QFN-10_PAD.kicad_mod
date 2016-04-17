@@ -1,4 +1,4 @@
-(module smd:QFN-10_PAD (layer F.Cu) (tedit 57140D3B)
+(module tps61200_QFN-10_PAD (layer F.Cu) (tedit 57140D3B)
   (attr smd)
   (fp_text reference Ref** (at 0 -3.048) (layer F.SilkS)
     (effects (font (size 1.016 1.016) (thickness 0.09906)))
