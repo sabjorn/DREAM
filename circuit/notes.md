@@ -1,7 +1,10 @@
 All resistors are size `SMD 0603`. They have a maximum dissipation of .1W and none of the resistors will get near this.
 
-
 based on: http://electronics.stackexchange.com/questions/12409/choosing-surface-mount-resistor-capacitors
+
+The battery is 5cm x 3cm
+
+PCB will (currently) be 6x6mm, 5mm will not work, there is simply not enough space?
 
 #### [Seeed Studio Design Rules](http://support.seeedstudio.com/knowledgebase/articles/422482-fusion-pcb-order-submission-guidelines)
 
