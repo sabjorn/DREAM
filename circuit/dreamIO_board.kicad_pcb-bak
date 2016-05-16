@@ -3,7 +3,7 @@
   (general
     (links 199)
     (no_connects 199)
-    (area 14.249999 13.649999 74.350001 73.750001)
+    (area 14.199999 13.599999 75.500651 73.750001)
     (thickness 1.6)
     (drawings 8)
     (tracks 0)
@@ -1986,12 +1986,12 @@
   )
 
   (module dpst:DPST_TE_SSJ12R04 (layer F.Cu) (tedit 51C8CDE3) (tstamp 57391E0B)
-    (at 70.1 36 180)
+    (at 62.3 42.7 270)
     (path /570AB3B9)
-    (fp_text reference SW1 (at 0 3 180) (layer F.SilkS)
+    (fp_text reference SW1 (at 0 3 270) (layer F.SilkS)
       (effects (font (size 1.016 1.016) (thickness 0.1524)))
     )
-    (fp_text value SPDT (at 0 -5.4 180) (layer F.SilkS) hide
+    (fp_text value SPDT (at 0 -5.4 270) (layer F.SilkS) hide
       (effects (font (size 1.016 1.016) (thickness 0.1524)))
     )
     (fp_line (start 1.69926 -2.10058) (end 1.69926 -4.59994) (layer F.SilkS) (width 0.20066))
@@ -2001,11 +2001,11 @@
     (fp_line (start -5.10032 -2.10058) (end -5.10032 2.10058) (layer F.SilkS) (width 0.20066))
     (fp_line (start -5.10032 2.10058) (end 5.10032 2.10058) (layer F.SilkS) (width 0.20066))
     (fp_line (start 5.10032 2.10058) (end 5.10032 -2.10058) (layer F.SilkS) (width 0.20066))
-    (pad 1 thru_hole circle (at -1.99898 0 180) (size 1.524 1.524) (drill 0.97028) (layers *.Cu *.Mask F.SilkS)
+    (pad 1 thru_hole circle (at -1.99898 0 270) (size 1.524 1.524) (drill 0.97028) (layers *.Cu *.Mask F.SilkS)
       (net 4 "Net-(C3-Pad1)"))
-    (pad 2 thru_hole circle (at 0 0 180) (size 1.524 1.524) (drill 0.97028) (layers *.Cu *.Mask F.SilkS)
+    (pad 2 thru_hole circle (at 0 0 270) (size 1.524 1.524) (drill 0.97028) (layers *.Cu *.Mask F.SilkS)
       (net 3 +BATT))
-    (pad 3 thru_hole circle (at 1.99898 0 180) (size 1.524 1.524) (drill 0.97028) (layers *.Cu *.Mask F.SilkS))
+    (pad 3 thru_hole circle (at 1.99898 0 270) (size 1.524 1.524) (drill 0.97028) (layers *.Cu *.Mask F.SilkS))
     (model 3D/Switches/TE_SSJ12R04.wrl
       (at (xyz 0 0 0))
       (scale (xyz 0.3937 0.3937 0.3937))
