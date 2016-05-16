@@ -24,7 +24,7 @@ Max patch uses CNMAT OSC externals*/
 
 /*Neopixels*/
 #define PIXPIN 15
-#define NUMPIX 9
+#define NUMPIX 8
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIX, PIXPIN, NEO_GRB + NEO_KHZ800);
 //===========================================================================//
 
@@ -47,7 +47,7 @@ uint8_t old_val = 0;
 //===========================================================================//
 
 /*Neopixel Control Callback*/
-void pix(OSCMessage &msg)
+void leds(OSCMessage &msg)
 {
   uint8_t n, r, g, b = 0;
   
@@ -143,10 +143,10 @@ void loop() {
  
 	  if( (size = Udp.parsePacket())>0)
 	  {
-	   while(size--)
+      while(size--)
 	     msgIn.fill(Udp.read());
 
 	    if(!msgIn.hasError())
-	      msgIn.dispatch(ID"/pix", pix);
+	     msgIn.dispatch(ID"/leds", leds);
 	  }
 }
