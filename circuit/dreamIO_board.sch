@@ -268,17 +268,6 @@ F 3 "" H 3800 3850 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C4
-U 1 1 56B06545
-P 4250 3150
-F 0 "C4" H 4275 3250 50  0000 L CNN
-F 1 "0.1uF" H 4275 3050 50  0000 L CNN
-F 2 "kicad-libraries:0603" H 4288 3000 30  0001 C CNN
-F 3 "" H 4250 3150 60  0000 C CNN
-	1    4250 3150
-	1    0    0    -1  
-$EndComp
-$Comp
 L GND #PWR07
 U 1 1 56B06BBC
 P 5100 4650
@@ -376,17 +365,6 @@ F 1 "GND" H 4150 4500 50  0000 C CNN
 F 2 "" H 4150 4650 60  0000 C CNN
 F 3 "" H 4150 4650 60  0000 C CNN
 	1    4150 4650
-	1    0    0    -1  
-$EndComp
-$Comp
-L CONN_01X02 P6
-U 1 1 56E65EA0
-P 4600 4200
-F 0 "P6" H 4600 4350 50  0000 C CNN
-F 1 "gnd_con" V 4700 4200 50  0000 C CNN
-F 2 "_connectors:_Solder_Pad2.54_2" H 4600 4200 60  0001 C CNN
-F 3 "" H 4600 4200 60  0000 C CNN
-	1    4600 4200
 	1    0    0    -1  
 $EndComp
 Text Notes 1300 3500 0    60   ~ 12
@@ -1210,10 +1188,8 @@ Wire Wire Line
 Wire Wire Line
 	2800 8900 2800 9100
 Wire Wire Line
-	4400 4250 4400 4650
+	4400 4050 4400 4650
 Connection ~ 4400 4050
-Wire Wire Line
-	4400 4050 4400 4150
 Wire Wire Line
 	4150 4050 4150 4650
 Wire Wire Line
@@ -1262,14 +1238,6 @@ Wire Wire Line
 	5100 4550 5500 4550
 Wire Wire Line
 	5100 4500 5100 4650
-Connection ~ 3800 3400
-Wire Wire Line
-	4250 3400 3800 3400
-Wire Wire Line
-	4250 3300 4250 3400
-Connection ~ 4250 2900
-Wire Wire Line
-	4250 2900 4250 3000
 Connection ~ 3500 2900
 Wire Wire Line
 	3500 2900 3500 3150
