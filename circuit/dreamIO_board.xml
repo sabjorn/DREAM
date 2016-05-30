@@ -2,7 +2,7 @@
 <export version="D">
   <design>
     <source>/Users/sabjorn/Dropbox/dreamIO/circuit/dreamIO_board.sch</source>
-    <date>Sunday, April 10, 2016 'pmt' 05:27:20 pm</date>
+    <date>Friday, May 27, 2016 'pmt' 03:27:11 pm</date>
     <tool>Eeschema 4.0.2-stable</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -42,7 +42,7 @@
     </comp>
     <comp ref="D1">
       <value>LED</value>
-      <footprint>Capacitors_Tantalum_SMD:TantalC_SizeA_EIA-3216_HandSoldering</footprint>
+      <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="LED"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>56B0400A</tstamp>
@@ -69,7 +69,7 @@
       <tstamp>56B047FA</tstamp>
     </comp>
     <comp ref="P1">
-      <value>CONN_01X02</value>
+      <value>BATT</value>
       <footprint>Pin_Headers:Pin_Header_Straight_1x02</footprint>
       <libsource lib="conn" part="CONN_01X02"/>
       <sheetpath names="/" tstamps="/"/>
@@ -91,7 +91,7 @@
     </comp>
     <comp ref="P4">
       <value>CONN_01X02</value>
-      <footprint>Pin_Headers:Pin_Header_Straight_1x02</footprint>
+      <footprint>_connectors:_Solder_Pad2.54_2</footprint>
       <libsource lib="conn" part="CONN_01X02"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>56B05DAC</tstamp>
@@ -110,13 +110,6 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamp>56B05FED</tstamp>
     </comp>
-    <comp ref="C4">
-      <value>0.1uF</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="C"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>56B06545</tstamp>
-    </comp>
     <comp ref="C6">
       <value>0.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
@@ -124,26 +117,12 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamp>56B073C1</tstamp>
     </comp>
-    <comp ref="P7">
-      <value>CONN_01X03</value>
-      <footprint>Pin_Headers:Pin_Header_Straight_1x03</footprint>
-      <libsource lib="conn" part="CONN_01X03"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>56B0753C</tstamp>
-    </comp>
     <comp ref="R4">
       <value>1.2M</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="R"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>56B07732</tstamp>
-    </comp>
-    <comp ref="R5">
-      <value>2M</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>56B07799</tstamp>
     </comp>
     <comp ref="C5">
       <value>22uF</value>
@@ -161,49 +140,14 @@
     </comp>
     <comp ref="IC1">
       <value>TPS61200</value>
-      <footprint>Housings_DFN_QFN:DFN-10-1EP_3x3mm_Pitch0.5mm</footprint>
+      <footprint>tps61200_qfn_custom:tps61200_QFN-10_PAD</footprint>
       <libsource lib="texas-instruments" part="TPS61200"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>56B04F9B</tstamp>
     </comp>
-    <comp ref="P6">
-      <value>CONN_01X02</value>
-      <footprint>Pin_Headers:Pin_Header_Straight_1x02</footprint>
-      <libsource lib="conn" part="CONN_01X02"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>56E65EA0</tstamp>
-    </comp>
-    <comp ref="U3">
-      <value>UA78M33_SOT223</value>
-      <footprint>kicad-libraries:SOT-223</footprint>
-      <libsource lib="dreamIO_board-cache" part="UA78M33_SOT223"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>56E67FB7</tstamp>
-    </comp>
-    <comp ref="C7">
-      <value>.33uF</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="C"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>56E68705</tstamp>
-    </comp>
-    <comp ref="C8">
-      <value>.1uF</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="C"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>56E68774</tstamp>
-    </comp>
-    <comp ref="U5">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>56E69764</tstamp>
-    </comp>
     <comp ref="U17">
       <value>MPU-6050</value>
-      <footprint>kicad-libraries:QFN-24-4x4-EP</footprint>
+      <footprint>mpu6050:QFN-24-4x4-EP_steevedit</footprint>
       <libsource lib="mpu-6050" part="MPU-6050"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>56E6A3E4</tstamp>
@@ -216,8 +160,8 @@
       <tstamp>56E6B006</tstamp>
     </comp>
     <comp ref="SW2">
-      <value>SW_PUSH</value>
-      <footprint>shardy:SW_PUSH_SMALL</footprint>
+      <value>RESET</value>
+      <footprint>kicad-libraries:SW_06_SMD</footprint>
       <libsource lib="device" part="SW_PUSH"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>570043C5</tstamp>
@@ -258,8 +202,8 @@
       <tstamp>57007BF5</tstamp>
     </comp>
     <comp ref="SW3">
-      <value>SW_PUSH</value>
-      <footprint>shardy:SW_PUSH_SMALL</footprint>
+      <value>PRGM</value>
+      <footprint>kicad-libraries:SW_06_SMD</footprint>
       <libsource lib="device" part="SW_PUSH"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>57007EAD</tstamp>
@@ -277,34 +221,6 @@
       <libsource lib="device" part="R"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5700B574</tstamp>
-    </comp>
-    <comp ref="P3">
-      <value>CONN_01X06</value>
-      <footprint>Pin_Headers:Pin_Header_Straight_1x06</footprint>
-      <libsource lib="conn" part="CONN_01X06"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>570132BC</tstamp>
-    </comp>
-    <comp ref="P2">
-      <value>CONN_01X06</value>
-      <footprint>Pin_Headers:Pin_Header_Straight_1x06</footprint>
-      <libsource lib="conn" part="CONN_01X06"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>57013365</tstamp>
-    </comp>
-    <comp ref="P8">
-      <value>CONN_01X04</value>
-      <footprint>Pin_Headers:Pin_Header_Straight_1x04</footprint>
-      <libsource lib="conn" part="CONN_01X04"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5701897B</tstamp>
-    </comp>
-    <comp ref="P5">
-      <value>CONN_01X06</value>
-      <footprint>Pin_Headers:Pin_Header_Straight_1x06</footprint>
-      <libsource lib="conn" part="CONN_01X06"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5701BFDD</tstamp>
     </comp>
     <comp ref="R25">
       <value>4.7k</value>
@@ -356,14 +272,14 @@
       <tstamp>5702A111</tstamp>
     </comp>
     <comp ref="R12">
-      <value>150</value>
+      <value>220</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="R"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>57031F2C</tstamp>
     </comp>
     <comp ref="P9">
-      <value>CONN_01X03</value>
+      <value>PixelOut</value>
       <footprint>Pin_Headers:Pin_Header_Straight_1x03</footprint>
       <libsource lib="conn" part="CONN_01X03"/>
       <sheetpath names="/" tstamps="/"/>
@@ -376,243 +292,236 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamp>57031CA8</tstamp>
     </comp>
-    <comp ref="U6">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="SW1">
+      <value>SPDT</value>
+      <footprint>dpst:DPST_TE_SSJ12R04</footprint>
+      <libsource lib="shardy" part="SPDT"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709D9FB</tstamp>
+      <tstamp>570AB3B9</tstamp>
     </comp>
-    <comp ref="R13">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
+    <comp ref="LED1">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709DA01</tstamp>
+      <tstamp>571410C7</tstamp>
     </comp>
     <comp ref="C10">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709DA07</tstamp>
+      <tstamp>57143A26</tstamp>
     </comp>
-    <comp ref="U7">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED2">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709DBD1</tstamp>
-    </comp>
-    <comp ref="R14">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709DBD7</tstamp>
+      <tstamp>57143A2C</tstamp>
     </comp>
     <comp ref="C11">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709DBDD</tstamp>
+      <tstamp>571441AF</tstamp>
     </comp>
-    <comp ref="U8">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED3">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709DBEF</tstamp>
-    </comp>
-    <comp ref="R15">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709DBF5</tstamp>
+      <tstamp>571441B5</tstamp>
     </comp>
     <comp ref="C12">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709DBFB</tstamp>
+      <tstamp>571441BB</tstamp>
     </comp>
-    <comp ref="U9">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED4">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF1F</tstamp>
-    </comp>
-    <comp ref="R17">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF25</tstamp>
+      <tstamp>571441C1</tstamp>
     </comp>
     <comp ref="C15">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF37</tstamp>
+      <tstamp>5714582F</tstamp>
     </comp>
-    <comp ref="U10">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED5">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF49</tstamp>
-    </comp>
-    <comp ref="R18">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF4F</tstamp>
+      <tstamp>57145836</tstamp>
     </comp>
     <comp ref="C16">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF55</tstamp>
+      <tstamp>57145844</tstamp>
     </comp>
-    <comp ref="U11">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED6">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF64</tstamp>
-    </comp>
-    <comp ref="R19">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF6A</tstamp>
+      <tstamp>5714584A</tstamp>
     </comp>
     <comp ref="C17">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF70</tstamp>
+      <tstamp>5714585A</tstamp>
     </comp>
-    <comp ref="U12">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED7">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF7F</tstamp>
-    </comp>
-    <comp ref="R20">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF85</tstamp>
+      <tstamp>57145860</tstamp>
     </comp>
     <comp ref="C18">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709EF8B</tstamp>
+      <tstamp>57145866</tstamp>
     </comp>
-    <comp ref="U13">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED8">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F2DE</tstamp>
-    </comp>
-    <comp ref="R21">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F2E4</tstamp>
+      <tstamp>5714586C</tstamp>
     </comp>
     <comp ref="C19">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F2F6</tstamp>
+      <tstamp>57145C29</tstamp>
     </comp>
-    <comp ref="U14">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED9">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F307</tstamp>
-    </comp>
-    <comp ref="R22">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F30D</tstamp>
+      <tstamp>57145C2F</tstamp>
     </comp>
     <comp ref="C20">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F313</tstamp>
+      <tstamp>57145C47</tstamp>
     </comp>
-    <comp ref="U15">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED10">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F322</tstamp>
-    </comp>
-    <comp ref="R23">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F328</tstamp>
+      <tstamp>57145C4D</tstamp>
     </comp>
     <comp ref="C21">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F32E</tstamp>
+      <tstamp>57145C5D</tstamp>
     </comp>
-    <comp ref="U16">
-      <value>WS2812</value>
-      <footprint>shardy:5050</footprint>
-      <libsource lib="shardy" part="WS2812"/>
+    <comp ref="LED11">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F33D</tstamp>
-    </comp>
-    <comp ref="R24">
-      <value>150</value>
-      <footprint>kicad-libraries:0603</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F343</tstamp>
+      <tstamp>57145C63</tstamp>
     </comp>
     <comp ref="C22">
       <value>.1uF</value>
       <footprint>kicad-libraries:0603</footprint>
       <libsource lib="device" part="C"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>5709F349</tstamp>
+      <tstamp>57145C69</tstamp>
     </comp>
-    <comp ref="SW1">
-      <value>SPDT</value>
-      <footprint>Buttons_Switches_ThroughHole:SW_Micro_SPST</footprint>
-      <libsource lib="shardy" part="SPDT"/>
+    <comp ref="LED12">
+      <value>WS2812B</value>
+      <footprint>kicad-libraries:WS2812B_LED</footprint>
+      <libsource lib="ws2812b" part="WS2812B"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamp>570AB3B9</tstamp>
+      <tstamp>57145C6F</tstamp>
+    </comp>
+    <comp ref="P3">
+      <value>CONN_01X08</value>
+      <footprint>_connectors:_Pin2mm_8</footprint>
+      <libsource lib="conn" part="CONN_01X08"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>572FFCD6</tstamp>
+    </comp>
+    <comp ref="P5">
+      <value>CONN_01X06</value>
+      <footprint>_connectors:_Pin2mm_6</footprint>
+      <libsource lib="conn" part="CONN_01X06"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57304753</tstamp>
+    </comp>
+    <comp ref="P2">
+      <value>CONN_01X08</value>
+      <footprint>_connectors:_Pin2mm_8</footprint>
+      <libsource lib="conn" part="CONN_01X08"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>573068A5</tstamp>
+    </comp>
+    <comp ref="SW4">
+      <value>HCI2</value>
+      <footprint>kicad-libraries:SW_06_SMD</footprint>
+      <libsource lib="device" part="SW_PUSH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57392AE9</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>10k</value>
+      <footprint>kicad-libraries:0603</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57392BE0</tstamp>
+    </comp>
+    <comp ref="SW5">
+      <value>HCI1</value>
+      <footprint>kicad-libraries:SW_06_SMD</footprint>
+      <libsource lib="device" part="SW_PUSH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5739382C</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>10k</value>
+      <footprint>kicad-libraries:0603</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57393838</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>2M</value>
+      <footprint>kicad-libraries:0603</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57473836</tstamp>
+    </comp>
+    <comp ref="R15">
+      <value>330K</value>
+      <footprint>kicad-libraries:0603</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5747458A</tstamp>
     </comp>
   </components>
   <libparts>
@@ -669,25 +578,6 @@
         <pin num="3" name="P3" type="passive"/>
       </pins>
     </libpart>
-    <libpart lib="conn" part="CONN_01X04">
-      <description>Connector 01x04</description>
-      <footprints>
-        <fp>Pin_Header_Straight_1X04</fp>
-        <fp>Pin_Header_Angled_1X04</fp>
-        <fp>Socket_Strip_Straight_1X04</fp>
-        <fp>Socket_Strip_Angled_1X04</fp>
-      </footprints>
-      <fields>
-        <field name="Reference">P</field>
-        <field name="Value">CONN_01X04</field>
-      </fields>
-      <pins>
-        <pin num="1" name="P1" type="passive"/>
-        <pin num="2" name="P2" type="passive"/>
-        <pin num="3" name="P3" type="passive"/>
-        <pin num="4" name="P4" type="passive"/>
-      </pins>
-    </libpart>
     <libpart lib="conn" part="CONN_01X06">
       <description>Connector 01x06</description>
       <footprints>
@@ -707,6 +597,29 @@
         <pin num="4" name="P4" type="passive"/>
         <pin num="5" name="P5" type="passive"/>
         <pin num="6" name="P6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X08">
+      <description>Connector 01x08</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X08</fp>
+        <fp>Pin_Header_Angled_1X08</fp>
+        <fp>Socket_Strip_Straight_1X08</fp>
+        <fp>Socket_Strip_Angled_1X08</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X08</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
       </pins>
     </libpart>
     <libpart lib="ESP8266" part="ESP-12E">
@@ -834,6 +747,7 @@
         <pin num="22" name="RESV" type="NotConnected"/>
         <pin num="23" name="SCL" type="BiDi"/>
         <pin num="24" name="SDA" type="BiDi"/>
+        <pin num="25" name="GNDPLANE" type="power_in"/>
       </pins>
     </libpart>
     <libpart lib="device" part="R">
@@ -900,504 +814,426 @@
         <pin num="15" name="PAD" type="power_in"/>
       </pins>
     </libpart>
-    <libpart lib="dreamIO_board-cache" part="UA78M33_SOT223">
+    <libpart lib="ws2812b" part="WS2812B">
+      <description>RGB LED with integrated controller</description>
       <fields>
-        <field name="Reference">U</field>
-        <field name="Value">UA78M33_SOT223</field>
+        <field name="Reference">LED</field>
+        <field name="Value">WS2812B</field>
       </fields>
       <pins>
-        <pin num="1" name="IN" type="input"/>
-        <pin num="2" name="GND" type="output"/>
-        <pin num="3" name="OUT" type="power_out"/>
-      </pins>
-    </libpart>
-    <libpart lib="shardy" part="WS2812">
-      <fields>
-        <field name="Reference">U</field>
-        <field name="Value">WS2812</field>
-      </fields>
-      <pins>
-        <pin num="1" name="DOUT" type="output"/>
-        <pin num="2" name="DIN" type="input"/>
-        <pin num="3" name="VCC" type="power_in"/>
-        <pin num="5" name="VDD" type="power_in"/>
-        <pin num="6" name="VSS" type="power_in"/>
+        <pin num="1" name="VCC" type="power_in"/>
+        <pin num="2" name="DOUT" type="output"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="DIN" type="input"/>
       </pins>
     </libpart>
   </libparts>
   <libraries>
-    <library logical="mpu-6050">
-      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/hebi/KiCAD/mpu-6050.lib</uri>
-    </library>
-    <library logical="dreamIO_board-cache">
-      <uri>/Users/sabjorn/Dropbox/dreamIO/circuit/dreamIO_board-cache.lib</uri>
-    </library>
-    <library logical="shardy">
-      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/kicad-libs/shardy.lib</uri>
-    </library>
-    <library logical="open-project">
-      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/kicadlibrary/open-project.lib</uri>
-    </library>
-    <library logical="texas-instruments">
-      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/kicad-parts/libraries/texas-instruments.lib</uri>
-    </library>
-    <library logical="ESP8266">
-      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/kicad-ESP8266/ESP8266.lib</uri>
-    </library>
     <library logical="device">
       <uri>/Library/Application Support/kicad/library/device.lib</uri>
+    </library>
+    <library logical="ws2812b">
+      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/madworm_WS2812.pretty/Schematic-Symbol/ws2812b.lib</uri>
     </library>
     <library logical="conn">
       <uri>/Library/Application Support/kicad/library/conn.lib</uri>
     </library>
+    <library logical="texas-instruments">
+      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/kicad-parts/libraries/texas-instruments.lib</uri>
+    </library>
+    <library logical="mpu-6050">
+      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/hebi/KiCAD/mpu-6050.lib</uri>
+    </library>
+    <library logical="ESP8266">
+      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/kicad-ESP8266/ESP8266.lib</uri>
+    </library>
+    <library logical="open-project">
+      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/kicadlibrary/open-project.lib</uri>
+    </library>
+    <library logical="shardy">
+      <uri>/Users/sabjorn/Dropbox/design/electronics/kicad/libraries/kicad-libs/shardy.lib</uri>
+    </library>
   </libraries>
   <nets>
-    <net code="1" name="GPIO0">
-      <node ref="R10" pin="2"/>
-      <node ref="SW3" pin="1"/>
-      <node ref="U4" pin="18"/>
-      <node ref="P2" pin="2"/>
+    <net code="1" name="Net-(LED7-Pad2)">
+      <node ref="LED8" pin="4"/>
+      <node ref="LED7" pin="2"/>
     </net>
-    <net code="2" name="+3V3">
-      <node ref="R10" pin="1"/>
-      <node ref="C13" pin="1"/>
-      <node ref="C14" pin="1"/>
-      <node ref="U17" pin="13"/>
-      <node ref="U17" pin="8"/>
-      <node ref="U4" pin="8"/>
-      <node ref="R26" pin="1"/>
-      <node ref="R25" pin="1"/>
-      <node ref="P5" pin="6"/>
-      <node ref="C23" pin="2"/>
-      <node ref="C24" pin="2"/>
-      <node ref="R11" pin="1"/>
-      <node ref="C8" pin="1"/>
-      <node ref="U3" pin="3"/>
-      <node ref="R8" pin="1"/>
-      <node ref="R9" pin="1"/>
+    <net code="2" name="Net-(LED8-Pad2)">
+      <node ref="LED8" pin="2"/>
+      <node ref="LED9" pin="4"/>
     </net>
-    <net code="3" name="Net-(R8-Pad2)">
-      <node ref="R8" pin="2"/>
-      <node ref="U4" pin="3"/>
+    <net code="3" name="Net-(LED6-Pad2)">
+      <node ref="LED7" pin="4"/>
+      <node ref="LED6" pin="2"/>
     </net>
-    <net code="4" name="Net-(R9-Pad2)">
-      <node ref="U4" pin="1"/>
-      <node ref="SW2" pin="2"/>
-      <node ref="R9" pin="2"/>
+    <net code="4" name="Net-(LED5-Pad2)">
+      <node ref="LED6" pin="4"/>
+      <node ref="LED5" pin="2"/>
     </net>
-    <net code="5" name="GPIO14">
-      <node ref="U4" pin="5"/>
-      <node ref="P3" pin="3"/>
+    <net code="5" name="Net-(LED10-Pad4)">
+      <node ref="LED10" pin="4"/>
+      <node ref="LED9" pin="2"/>
     </net>
-    <net code="6" name="GPIO16">
-      <node ref="U4" pin="4"/>
-      <node ref="P3" pin="1"/>
+    <net code="6" name="Net-(LED10-Pad2)">
+      <node ref="LED11" pin="4"/>
+      <node ref="LED10" pin="2"/>
     </net>
-    <net code="7" name="GPIO4">
-      <node ref="U17" pin="12"/>
-      <node ref="P2" pin="4"/>
-      <node ref="U4" pin="19"/>
-    </net>
-    <net code="8" name="RX">
-      <node ref="U4" pin="21"/>
-      <node ref="P5" pin="3"/>
-    </net>
-    <net code="9" name="GPIO5">
-      <node ref="U4" pin="20"/>
-      <node ref="P2" pin="5"/>
-    </net>
-    <net code="10" name="TX">
-      <node ref="U4" pin="22"/>
-      <node ref="P5" pin="2"/>
-    </net>
-    <net code="11" name="Net-(P7-Pad1)">
-      <node ref="P7" pin="1"/>
-      <node ref="R5" pin="2"/>
-    </net>
-    <net code="12" name="Net-(IC1-Pad10)">
-      <node ref="R7" pin="1"/>
-      <node ref="IC1" pin="10"/>
-      <node ref="P7" pin="2"/>
-    </net>
-    <net code="13" name="GNDA">
-      <node ref="IC1" pin="4"/>
-      <node ref="R7" pin="2"/>
-      <node ref="C5" pin="2"/>
-      <node ref="C3" pin="2"/>
-      <node ref="C6" pin="2"/>
-      <node ref="P6" pin="2"/>
-    </net>
-    <net code="14" name="Net-(C6-Pad1)">
-      <node ref="C6" pin="1"/>
-      <node ref="IC1" pin="1"/>
-    </net>
-    <net code="15" name="+BATT">
-      <node ref="P1" pin="1"/>
-      <node ref="C2" pin="1"/>
+    <net code="7" name="+BATT">
       <node ref="U1" pin="3"/>
+      <node ref="C2" pin="1"/>
+      <node ref="P1" pin="1"/>
       <node ref="SW1" pin="2"/>
     </net>
-    <net code="16" name="Net-(P7-Pad3)">
-      <node ref="P7" pin="3"/>
-      <node ref="R4" pin="2"/>
-    </net>
-    <net code="17" name="Net-(C22-Pad1)">
-      <node ref="U16" pin="3"/>
-      <node ref="R24" pin="2"/>
-      <node ref="C22" pin="1"/>
-    </net>
-    <net code="18" name="GND">
-      <node ref="C13" pin="2"/>
-      <node ref="C14" pin="2"/>
-      <node ref="U17" pin="11"/>
-      <node ref="U17" pin="1"/>
-      <node ref="U5" pin="6"/>
-      <node ref="U4" pin="15"/>
-      <node ref="U17" pin="18"/>
-      <node ref="U8" pin="6"/>
-      <node ref="C11" pin="2"/>
-      <node ref="U7" pin="6"/>
-      <node ref="C10" pin="2"/>
-      <node ref="U6" pin="6"/>
-      <node ref="IC1" pin="9"/>
-      <node ref="C8" pin="2"/>
-      <node ref="C7" pin="2"/>
-      <node ref="U3" pin="2"/>
-      <node ref="P6" pin="1"/>
-      <node ref="U9" pin="6"/>
-      <node ref="C15" pin="2"/>
-      <node ref="C12" pin="2"/>
-      <node ref="U13" pin="6"/>
-      <node ref="C18" pin="2"/>
-      <node ref="U12" pin="6"/>
-      <node ref="U10" pin="6"/>
-      <node ref="C17" pin="2"/>
-      <node ref="U11" pin="6"/>
-      <node ref="C9" pin="2"/>
-      <node ref="C16" pin="2"/>
-      <node ref="P9" pin="3"/>
-      <node ref="P1" pin="2"/>
-      <node ref="C2" pin="2"/>
-      <node ref="SW2" pin="1"/>
-      <node ref="SW3" pin="2"/>
-      <node ref="R16" pin="2"/>
-      <node ref="IC1" pin="15"/>
-      <node ref="IC1" pin="14"/>
-      <node ref="IC1" pin="13"/>
-      <node ref="IC1" pin="12"/>
-      <node ref="IC1" pin="11"/>
-      <node ref="R2" pin="2"/>
-      <node ref="U2" pin="5"/>
-      <node ref="C1" pin="2"/>
-      <node ref="U1" pin="2"/>
-      <node ref="R6" pin="2"/>
-      <node ref="P5" pin="5"/>
-      <node ref="C22" pin="2"/>
-      <node ref="U16" pin="6"/>
-      <node ref="U14" pin="6"/>
-      <node ref="C19" pin="2"/>
-      <node ref="C20" pin="2"/>
-      <node ref="U15" pin="6"/>
-      <node ref="C21" pin="2"/>
-      <node ref="C25" pin="2"/>
-      <node ref="C24" pin="1"/>
-      <node ref="R27" pin="2"/>
-      <node ref="C26" pin="2"/>
-      <node ref="C23" pin="1"/>
-    </net>
-    <net code="19" name="DOUT">
-      <node ref="U16" pin="1"/>
-      <node ref="P9" pin="2"/>
-    </net>
-    <net code="20" name="GPIO13">
-      <node ref="U17" pin="24"/>
-      <node ref="P3" pin="4"/>
-      <node ref="R26" pin="2"/>
-      <node ref="U4" pin="7"/>
-    </net>
-    <net code="21" name="GPIO12">
-      <node ref="U17" pin="23"/>
-      <node ref="U4" pin="6"/>
-      <node ref="P3" pin="5"/>
-      <node ref="R25" pin="2"/>
-    </net>
-    <net code="22" name="ADO">
-      <node ref="R27" pin="1"/>
-      <node ref="U17" pin="9"/>
-    </net>
-    <net code="23" name="XDA">
-      <node ref="U17" pin="6"/>
-    </net>
-    <net code="24" name="XCL">
-      <node ref="U17" pin="7"/>
-    </net>
-    <net code="25" name="Net-(U13-Pad1)">
-      <node ref="U13" pin="1"/>
-      <node ref="U14" pin="2"/>
-    </net>
-    <net code="26" name="Net-(C20-Pad1)">
-      <node ref="C20" pin="1"/>
-      <node ref="R22" pin="2"/>
-      <node ref="U14" pin="3"/>
-    </net>
-    <net code="27" name="Net-(U15-Pad1)">
-      <node ref="U15" pin="1"/>
-      <node ref="U16" pin="2"/>
-    </net>
-    <net code="28" name="Net-(U14-Pad1)">
-      <node ref="U15" pin="2"/>
-      <node ref="U14" pin="1"/>
-    </net>
-    <net code="29" name="Net-(C21-Pad1)">
-      <node ref="R23" pin="2"/>
-      <node ref="C21" pin="1"/>
-      <node ref="U15" pin="3"/>
-    </net>
-    <net code="30" name="CS0">
-      <node ref="P8" pin="4"/>
-      <node ref="U4" pin="9"/>
-    </net>
-    <net code="31" name="MISO">
-      <node ref="U4" pin="10"/>
-      <node ref="P8" pin="3"/>
-    </net>
-    <net code="32" name="MOSI">
-      <node ref="U4" pin="13"/>
-      <node ref="P8" pin="2"/>
-    </net>
-    <net code="33" name="SCLK">
-      <node ref="P8" pin="1"/>
-      <node ref="U4" pin="14"/>
-    </net>
-    <net code="34" name="GPIO9">
-      <node ref="U4" pin="11"/>
-      <node ref="P2" pin="6"/>
-    </net>
-    <net code="35" name="ADC">
-      <node ref="P2" pin="1"/>
-      <node ref="U4" pin="2"/>
-    </net>
-    <net code="36" name="GPIO10">
-      <node ref="U4" pin="12"/>
-      <node ref="P3" pin="6"/>
-    </net>
-    <net code="37" name="Net-(C25-Pad1)">
-      <node ref="U17" pin="10"/>
-      <node ref="C25" pin="1"/>
-    </net>
-    <net code="38" name="Net-(C26-Pad1)">
-      <node ref="U17" pin="20"/>
-      <node ref="C26" pin="1"/>
-    </net>
-    <net code="39" name="Net-(U10-Pad2)">
-      <node ref="U10" pin="2"/>
-      <node ref="U9" pin="1"/>
-    </net>
-    <net code="40" name="Net-(U10-Pad1)">
-      <node ref="U11" pin="2"/>
-      <node ref="U10" pin="1"/>
-    </net>
-    <net code="41" name="Net-(U11-Pad1)">
-      <node ref="U11" pin="1"/>
-      <node ref="U12" pin="2"/>
-    </net>
-    <net code="42" name="Net-(C19-Pad1)">
-      <node ref="R21" pin="2"/>
-      <node ref="U13" pin="3"/>
-      <node ref="C19" pin="1"/>
-    </net>
-    <net code="43" name="Net-(C16-Pad1)">
-      <node ref="U10" pin="3"/>
-      <node ref="C16" pin="1"/>
-      <node ref="R18" pin="2"/>
-    </net>
-    <net code="44" name="Net-(C17-Pad1)">
-      <node ref="U11" pin="3"/>
-      <node ref="C17" pin="1"/>
-      <node ref="R19" pin="2"/>
-    </net>
-    <net code="45" name="Net-(C18-Pad1)">
-      <node ref="R20" pin="2"/>
-      <node ref="C18" pin="1"/>
-      <node ref="U12" pin="3"/>
-    </net>
-    <net code="46" name="Net-(U12-Pad1)">
-      <node ref="U13" pin="2"/>
-      <node ref="U12" pin="1"/>
-    </net>
-    <net code="47" name="Net-(U8-Pad1)">
-      <node ref="U9" pin="2"/>
-      <node ref="U8" pin="1"/>
-    </net>
-    <net code="48" name="Net-(SW1-Pad3)">
+    <net code="8" name="Net-(SW1-Pad3)">
       <node ref="SW1" pin="3"/>
     </net>
-    <net code="49" name="Net-(D1-Pad1)">
-      <node ref="U1" pin="1"/>
-      <node ref="D1" pin="1"/>
+    <net code="9" name="Net-(LED1-Pad2)">
+      <node ref="LED2" pin="4"/>
+      <node ref="LED1" pin="2"/>
     </net>
-    <net code="50" name="Net-(C9-Pad1)">
-      <node ref="C9" pin="1"/>
-      <node ref="R12" pin="2"/>
-      <node ref="U5" pin="3"/>
+    <net code="10" name="Net-(LED1-Pad4)">
+      <node ref="R12" pin="1"/>
+      <node ref="LED1" pin="4"/>
     </net>
-    <net code="51" name="Net-(C4-Pad2)">
-      <node ref="IC1" pin="7"/>
-      <node ref="R3" pin="2"/>
-      <node ref="R6" pin="1"/>
-      <node ref="C4" pin="2"/>
-      <node ref="P4" pin="1"/>
-    </net>
-    <net code="52" name="Net-(C3-Pad1)">
-      <node ref="R3" pin="1"/>
+    <net code="11" name="Net-(C3-Pad1)">
+      <node ref="IC1" pin="8"/>
+      <node ref="SW1" pin="1"/>
+      <node ref="R5" pin="1"/>
       <node ref="L1" pin="2"/>
       <node ref="C3" pin="1"/>
       <node ref="P4" pin="2"/>
-      <node ref="C4" pin="1"/>
-      <node ref="SW1" pin="1"/>
+      <node ref="R3" pin="1"/>
       <node ref="IC1" pin="5"/>
       <node ref="IC1" pin="6"/>
-      <node ref="IC1" pin="8"/>
     </net>
-    <net code="53" name="Net-(IC1-Pad3)">
-      <node ref="IC1" pin="3"/>
+    <net code="12" name="Net-(IC1-Pad3)">
       <node ref="L1" pin="1"/>
+      <node ref="IC1" pin="3"/>
     </net>
-    <net code="54" name="Net-(R2-Pad1)">
-      <node ref="R2" pin="1"/>
+    <net code="13" name="Net-(R2-Pad1)">
       <node ref="U1" pin="5"/>
+      <node ref="R2" pin="1"/>
     </net>
-    <net code="55" name="Net-(C12-Pad1)">
-      <node ref="C12" pin="1"/>
-      <node ref="U8" pin="3"/>
-      <node ref="R15" pin="2"/>
+    <net code="14" name="Net-(D1-Pad1)">
+      <node ref="D1" pin="1"/>
+      <node ref="U1" pin="1"/>
     </net>
-    <net code="56" name="Net-(U5-Pad1)">
-      <node ref="U6" pin="2"/>
-      <node ref="U5" pin="1"/>
+    <net code="15" name="Net-(LED4-Pad2)">
+      <node ref="LED5" pin="4"/>
+      <node ref="LED4" pin="2"/>
     </net>
-    <net code="57" name="Net-(U6-Pad1)">
-      <node ref="U6" pin="1"/>
-      <node ref="U7" pin="2"/>
+    <net code="16" name="Net-(LED2-Pad2)">
+      <node ref="LED2" pin="2"/>
+      <node ref="LED3" pin="4"/>
     </net>
-    <net code="58" name="Net-(U7-Pad1)">
-      <node ref="U8" pin="2"/>
-      <node ref="U7" pin="1"/>
+    <net code="17" name="Net-(LED3-Pad2)">
+      <node ref="LED3" pin="2"/>
+      <node ref="LED4" pin="4"/>
     </net>
-    <net code="59" name="Net-(C15-Pad1)">
-      <node ref="R17" pin="2"/>
-      <node ref="C15" pin="1"/>
-      <node ref="U9" pin="3"/>
-    </net>
-    <net code="60" name="Net-(C10-Pad1)">
-      <node ref="C10" pin="1"/>
-      <node ref="R13" pin="2"/>
-      <node ref="U6" pin="3"/>
-    </net>
-    <net code="61" name="Net-(C11-Pad1)">
-      <node ref="C11" pin="1"/>
-      <node ref="R14" pin="2"/>
-      <node ref="U7" pin="3"/>
-    </net>
-    <net code="62" name="Net-(U17-Pad19)">
-      <node ref="U17" pin="19"/>
-    </net>
-    <net code="63" name="Net-(U17-Pad2)">
-      <node ref="U17" pin="2"/>
-    </net>
-    <net code="64" name="Net-(U17-Pad3)">
-      <node ref="U17" pin="3"/>
-    </net>
-    <net code="65" name="Net-(U17-Pad4)">
-      <node ref="U17" pin="4"/>
-    </net>
-    <net code="66" name="Net-(U17-Pad5)">
-      <node ref="U17" pin="5"/>
-    </net>
-    <net code="67" name="Net-(U17-Pad21)">
-      <node ref="U17" pin="21"/>
-    </net>
-    <net code="68" name="Net-(U17-Pad22)">
-      <node ref="U17" pin="22"/>
-    </net>
-    <net code="69" name="Net-(U17-Pad14)">
-      <node ref="U17" pin="14"/>
-    </net>
-    <net code="70" name="Net-(U17-Pad15)">
-      <node ref="U17" pin="15"/>
-    </net>
-    <net code="71" name="Net-(U17-Pad16)">
-      <node ref="U17" pin="16"/>
-    </net>
-    <net code="72" name="Net-(U17-Pad17)">
-      <node ref="U17" pin="17"/>
-    </net>
-    <net code="73" name="GPIO15">
-      <node ref="R16" pin="1"/>
-      <node ref="U4" pin="16"/>
-      <node ref="U5" pin="2"/>
+    <net code="18" name="RX">
+      <node ref="U4" pin="21"/>
       <node ref="P3" pin="2"/>
     </net>
-    <net code="74" name="GPIO2">
+    <net code="19" name="TX">
+      <node ref="U4" pin="22"/>
+      <node ref="P3" pin="1"/>
+    </net>
+    <net code="20" name="CS0">
+      <node ref="P5" pin="1"/>
+      <node ref="U4" pin="9"/>
+    </net>
+    <net code="21" name="MISO">
+      <node ref="P5" pin="2"/>
+      <node ref="U4" pin="10"/>
+    </net>
+    <net code="22" name="GPIO9">
+      <node ref="P5" pin="3"/>
+      <node ref="U4" pin="11"/>
+    </net>
+    <net code="23" name="GPIO10">
+      <node ref="P5" pin="4"/>
+      <node ref="U4" pin="12"/>
+    </net>
+    <net code="24" name="MOSI">
+      <node ref="U4" pin="13"/>
+      <node ref="P5" pin="5"/>
+    </net>
+    <net code="25" name="SCLK">
+      <node ref="P5" pin="6"/>
+      <node ref="U4" pin="14"/>
+    </net>
+    <net code="26" name="RESET">
+      <node ref="SW2" pin="2"/>
+      <node ref="U4" pin="1"/>
+      <node ref="P2" pin="1"/>
+      <node ref="R9" pin="2"/>
+    </net>
+    <net code="27" name="ADC">
+      <node ref="U4" pin="2"/>
+      <node ref="R5" pin="2"/>
+      <node ref="R15" pin="1"/>
+      <node ref="P2" pin="2"/>
+    </net>
+    <net code="28" name="GPIO16">
+      <node ref="U4" pin="4"/>
+      <node ref="SW4" pin="1"/>
+      <node ref="P2" pin="4"/>
+    </net>
+    <net code="29" name="GPIO14">
+      <node ref="SW5" pin="1"/>
+      <node ref="U4" pin="5"/>
+      <node ref="P2" pin="5"/>
+    </net>
+    <net code="30" name="GPIO12">
+      <node ref="U17" pin="23"/>
+      <node ref="U4" pin="6"/>
+      <node ref="P2" pin="6"/>
+      <node ref="R25" pin="2"/>
+    </net>
+    <net code="31" name="GPIO13">
+      <node ref="P2" pin="7"/>
+      <node ref="R26" pin="2"/>
+      <node ref="U4" pin="7"/>
+      <node ref="U17" pin="24"/>
+    </net>
+    <net code="32" name="+3V3">
+      <node ref="LED1" pin="1"/>
+      <node ref="C19" pin="2"/>
+      <node ref="R9" pin="1"/>
+      <node ref="R8" pin="1"/>
+      <node ref="U4" pin="8"/>
+      <node ref="LED10" pin="1"/>
+      <node ref="C20" pin="2"/>
+      <node ref="R11" pin="1"/>
+      <node ref="P2" pin="8"/>
+      <node ref="C18" pin="2"/>
+      <node ref="LED7" pin="1"/>
+      <node ref="C17" pin="2"/>
+      <node ref="C23" pin="2"/>
+      <node ref="R25" pin="1"/>
+      <node ref="R26" pin="1"/>
+      <node ref="C24" pin="2"/>
+      <node ref="C9" pin="2"/>
+      <node ref="C14" pin="1"/>
+      <node ref="C13" pin="1"/>
+      <node ref="R10" pin="1"/>
+      <node ref="LED9" pin="1"/>
+      <node ref="LED6" pin="1"/>
+      <node ref="C16" pin="2"/>
+      <node ref="U17" pin="8"/>
+      <node ref="U17" pin="13"/>
+      <node ref="R4" pin="1"/>
+      <node ref="C5" pin="1"/>
+      <node ref="IC1" pin="2"/>
+      <node ref="LED5" pin="1"/>
+      <node ref="C15" pin="2"/>
+      <node ref="LED8" pin="1"/>
+      <node ref="SW5" pin="2"/>
+      <node ref="R14" pin="2"/>
+      <node ref="C10" pin="2"/>
+      <node ref="LED2" pin="1"/>
+      <node ref="C11" pin="2"/>
+      <node ref="LED3" pin="1"/>
+      <node ref="C12" pin="2"/>
+      <node ref="LED4" pin="1"/>
+      <node ref="SW4" pin="2"/>
+      <node ref="R13" pin="2"/>
+      <node ref="LED12" pin="1"/>
+      <node ref="C22" pin="2"/>
+      <node ref="LED11" pin="1"/>
+      <node ref="C21" pin="2"/>
+    </net>
+    <net code="33" name="GPIO2">
       <node ref="R11" pin="2"/>
-      <node ref="P2" pin="3"/>
+      <node ref="P3" pin="6"/>
       <node ref="U4" pin="17"/>
     </net>
-    <net code="75" name="/VIN">
+    <net code="34" name="GPIO0">
+      <node ref="SW3" pin="1"/>
+      <node ref="P3" pin="5"/>
+      <node ref="R10" pin="2"/>
+      <node ref="U4" pin="18"/>
+    </net>
+    <net code="35" name="GPIO5">
+      <node ref="U4" pin="20"/>
+      <node ref="P3" pin="3"/>
+    </net>
+    <net code="36" name="Net-(LED11-Pad2)">
+      <node ref="LED11" pin="2"/>
+      <node ref="LED12" pin="4"/>
+    </net>
+    <net code="37" name="DOUT">
+      <node ref="LED12" pin="2"/>
+      <node ref="P9" pin="2"/>
+    </net>
+    <net code="38" name="Net-(C26-Pad1)">
+      <node ref="C26" pin="1"/>
+      <node ref="U17" pin="20"/>
+    </net>
+    <net code="39" name="Net-(D1-Pad2)">
+      <node ref="D1" pin="2"/>
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="40" name="GPIO15">
+      <node ref="P3" pin="7"/>
+      <node ref="R16" pin="1"/>
+      <node ref="U4" pin="16"/>
+      <node ref="R12" pin="2"/>
+    </net>
+    <net code="41" name="Net-(U17-Pad15)">
+      <node ref="U17" pin="15"/>
+    </net>
+    <net code="42" name="Net-(U17-Pad16)">
+      <node ref="U17" pin="16"/>
+    </net>
+    <net code="43" name="Net-(U17-Pad17)">
+      <node ref="U17" pin="17"/>
+    </net>
+    <net code="44" name="Net-(U17-Pad19)">
+      <node ref="U17" pin="19"/>
+    </net>
+    <net code="45" name="CH_PD">
+      <node ref="P2" pin="3"/>
+      <node ref="R8" pin="2"/>
+      <node ref="U4" pin="3"/>
+    </net>
+    <net code="46" name="/VIN">
+      <node ref="U2" pin="1"/>
+      <node ref="R1" pin="1"/>
       <node ref="U1" pin="4"/>
       <node ref="C1" pin="1"/>
-      <node ref="R1" pin="1"/>
-      <node ref="U2" pin="1"/>
     </net>
-    <net code="76" name="Net-(D1-Pad2)">
-      <node ref="R1" pin="2"/>
-      <node ref="D1" pin="2"/>
-    </net>
-    <net code="77" name="Net-(U2-Pad2)">
+    <net code="47" name="Net-(U2-Pad2)">
       <node ref="U2" pin="2"/>
     </net>
-    <net code="78" name="Net-(U2-Pad3)">
+    <net code="48" name="Net-(U2-Pad3)">
       <node ref="U2" pin="3"/>
     </net>
-    <net code="79" name="Net-(U2-Pad4)">
+    <net code="49" name="Net-(U2-Pad4)">
       <node ref="U2" pin="4"/>
     </net>
-    <net code="80" name="VCC">
-      <node ref="U16" pin="5"/>
-      <node ref="R24" pin="1"/>
-      <node ref="P5" pin="4"/>
-      <node ref="U14" pin="5"/>
-      <node ref="R22" pin="1"/>
-      <node ref="U15" pin="5"/>
-      <node ref="R23" pin="1"/>
-      <node ref="IC1" pin="2"/>
-      <node ref="U6" pin="5"/>
-      <node ref="R13" pin="1"/>
-      <node ref="U7" pin="5"/>
-      <node ref="R14" pin="1"/>
-      <node ref="U8" pin="5"/>
-      <node ref="R15" pin="1"/>
-      <node ref="R12" pin="1"/>
-      <node ref="P9" pin="1"/>
-      <node ref="U11" pin="5"/>
-      <node ref="R19" pin="1"/>
-      <node ref="R18" pin="1"/>
-      <node ref="U12" pin="5"/>
-      <node ref="U10" pin="5"/>
-      <node ref="R20" pin="1"/>
-      <node ref="U13" pin="5"/>
-      <node ref="R21" pin="1"/>
-      <node ref="U9" pin="5"/>
-      <node ref="R17" pin="1"/>
-      <node ref="U5" pin="5"/>
-      <node ref="U3" pin="1"/>
-      <node ref="C7" pin="1"/>
-      <node ref="R4" pin="1"/>
-      <node ref="R5" pin="1"/>
-      <node ref="C5" pin="1"/>
+    <net code="50" name="Net-(U17-Pad2)">
+      <node ref="U17" pin="2"/>
     </net>
-    <net code="81" name="Net-(P5-Pad1)">
-      <node ref="P5" pin="1"/>
+    <net code="51" name="Net-(U17-Pad3)">
+      <node ref="U17" pin="3"/>
+    </net>
+    <net code="52" name="Net-(U17-Pad4)">
+      <node ref="U17" pin="4"/>
+    </net>
+    <net code="53" name="Net-(U17-Pad5)">
+      <node ref="U17" pin="5"/>
+    </net>
+    <net code="54" name="Net-(U17-Pad21)">
+      <node ref="U17" pin="21"/>
+    </net>
+    <net code="55" name="Net-(U17-Pad22)">
+      <node ref="U17" pin="22"/>
+    </net>
+    <net code="56" name="Net-(U17-Pad14)">
+      <node ref="U17" pin="14"/>
+    </net>
+    <net code="57" name="GND">
+      <node ref="C22" pin="1"/>
+      <node ref="LED8" pin="3"/>
+      <node ref="U4" pin="15"/>
+      <node ref="LED11" pin="3"/>
+      <node ref="C21" pin="1"/>
+      <node ref="C18" pin="1"/>
+      <node ref="LED7" pin="3"/>
+      <node ref="R13" pin="1"/>
+      <node ref="C17" pin="1"/>
+      <node ref="C11" pin="1"/>
+      <node ref="C26" pin="2"/>
+      <node ref="C24" pin="1"/>
+      <node ref="LED1" pin="3"/>
+      <node ref="LED2" pin="3"/>
+      <node ref="C9" pin="1"/>
+      <node ref="P9" pin="3"/>
+      <node ref="C23" pin="1"/>
+      <node ref="C25" pin="2"/>
+      <node ref="LED4" pin="3"/>
+      <node ref="LED12" pin="3"/>
+      <node ref="C19" pin="1"/>
+      <node ref="LED3" pin="3"/>
+      <node ref="C12" pin="1"/>
+      <node ref="R27" pin="2"/>
+      <node ref="SW3" pin="2"/>
+      <node ref="R16" pin="2"/>
+      <node ref="C13" pin="2"/>
+      <node ref="R14" pin="1"/>
+      <node ref="C14" pin="2"/>
+      <node ref="R6" pin="2"/>
+      <node ref="C16" pin="1"/>
+      <node ref="C3" pin="2"/>
+      <node ref="LED6" pin="3"/>
+      <node ref="P1" pin="2"/>
+      <node ref="C2" pin="2"/>
+      <node ref="LED9" pin="3"/>
+      <node ref="SW2" pin="1"/>
+      <node ref="LED10" pin="3"/>
+      <node ref="C10" pin="1"/>
+      <node ref="U17" pin="18"/>
+      <node ref="U17" pin="25"/>
+      <node ref="P3" pin="8"/>
+      <node ref="C20" pin="1"/>
+      <node ref="U17" pin="11"/>
+      <node ref="C6" pin="2"/>
+      <node ref="R15" pin="2"/>
+      <node ref="C5" pin="2"/>
+      <node ref="R7" pin="2"/>
+      <node ref="IC1" pin="4"/>
+      <node ref="LED5" pin="3"/>
+      <node ref="IC1" pin="9"/>
+      <node ref="IC1" pin="11"/>
+      <node ref="IC1" pin="12"/>
+      <node ref="IC1" pin="13"/>
+      <node ref="IC1" pin="14"/>
+      <node ref="C15" pin="1"/>
+      <node ref="R2" pin="2"/>
+      <node ref="U2" pin="5"/>
+      <node ref="C1" pin="2"/>
+      <node ref="IC1" pin="15"/>
+      <node ref="U17" pin="1"/>
+      <node ref="U1" pin="2"/>
+    </net>
+    <net code="58" name="Net-(C6-Pad1)">
+      <node ref="IC1" pin="1"/>
+      <node ref="C6" pin="1"/>
+    </net>
+    <net code="59" name="Net-(IC1-Pad10)">
+      <node ref="R7" pin="1"/>
+      <node ref="R4" pin="2"/>
+      <node ref="IC1" pin="10"/>
+    </net>
+    <net code="60" name="Net-(IC1-Pad7)">
+      <node ref="IC1" pin="7"/>
+      <node ref="P4" pin="1"/>
+      <node ref="R3" pin="2"/>
+      <node ref="R6" pin="1"/>
+    </net>
+    <net code="61" name="XDA">
+      <node ref="U17" pin="6"/>
+    </net>
+    <net code="62" name="GPIO4">
+      <node ref="U4" pin="19"/>
+      <node ref="U17" pin="12"/>
+      <node ref="P3" pin="4"/>
+    </net>
+    <net code="63" name="XCL">
+      <node ref="U17" pin="7"/>
+    </net>
+    <net code="64" name="Net-(C25-Pad1)">
+      <node ref="U17" pin="10"/>
+      <node ref="C25" pin="1"/>
+    </net>
+    <net code="65" name="ADO">
+      <node ref="R27" pin="1"/>
+      <node ref="U17" pin="9"/>
+    </net>
+    <net code="66" name="VCC">
+      <node ref="P9" pin="1"/>
     </net>
   </nets>
 </export>
