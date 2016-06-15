@@ -3,7 +3,7 @@
   (general
     (links 190)
     (no_connects 79)
-    (area 14.249999 13.649999 74.350001 73.750001)
+    (area 14.199999 13.599999 74.500811 73.750001)
     (thickness 1.6)
     (drawings 8)
     (tracks 474)
@@ -90,7 +90,7 @@
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory print/))
+      (outputdirectory solder_stencil/))
   )
 
   (net 0 "")
