@@ -22,7 +22,7 @@ Max patch uses CNMAT OSC externals*/
 #include <Math.h>
 
 // Unique ID endpoint for each instance
-#define ID "/2"
+#define ID "/3"
 
 //MPU
 #include "I2Cdev.h"
@@ -66,7 +66,7 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 
 /*Neopixels*/
 #define PIX_PIN 15
-#define NUMPIX 8
+#define NUMPIX 12
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIX, PIX_PIN, NEO_GRB + NEO_KHZ800);
 //===========================================================================//
 
