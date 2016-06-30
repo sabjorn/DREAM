@@ -738,7 +738,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 10.0, 381.0, 50.0, 31.0 ],
-					"text" : "9987856"
+					"text" : "85266744"
 				}
 
 			}
@@ -751,8 +751,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
-					"patching_rect" : [ 41.0, 209.0, 164.0, 20.0 ],
-					"text" : "dreamIO 255.255.255.255 /3"
+					"patching_rect" : [ 41.0, 209.0, 151.0, 20.0 ],
+					"text" : "dreamIO 192.168.1.121 /4"
 				}
 
 			}

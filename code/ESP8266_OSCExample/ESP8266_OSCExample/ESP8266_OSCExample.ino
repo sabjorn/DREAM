@@ -22,7 +22,7 @@ Max patch uses CNMAT OSC externals*/
 #include <Math.h>
 
 // Unique ID endpoint for each instance
-#define ID "/3"
+#define ID "/4"
 
 //MPU
 #include "I2Cdev.h"
@@ -260,7 +260,8 @@ void setup() {
 
   // you're connected now, so print out the data:
   Serial.println("You're connected to the network");
-  digitalWrite(WIFISTATUS_PIN, HIGH); //LED turns off when WIFI connects
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
 
   Udp.begin(inPort); //input Udp stream
 
