@@ -305,7 +305,6 @@ void loop() {
 
       if(!bundleIn.hasError())
       {
-        bundleIn.dispatch(ID"/gpio", gpio);
         bundleIn.dispatch(ID"/leds", leds);
         bundleIn.dispatch(ID"/update", update_interval);
       }
@@ -323,7 +322,6 @@ void loop() {
 
     if(!msgIn.hasError())
     {
-      msgIn.dispatch(ID"/gpio", gpio);
       msgIn.dispatch(ID"/leds", leds);
       msgIn.dispatch(ID"/update", update_interval);
     }
