@@ -22,9 +22,6 @@ Max patch uses CNMAT OSC externals*/
 
 #include <Math.h>
 
-// Unique ID endpoint for each instance
-#define ID "/4"
-
 //MPU
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
@@ -278,8 +275,8 @@ void loop() {
     /*OSC Out*/
     //declare a bundle
     OSCBundle bndl;
-    bndl.add(ID"/time").add((int32_t)micros()); //time since active :: indicates a connection
-    bndl.add(ID"/ypr").add(pi2float(ypr[0])).add(pi2float(ypr[1])).add(pi2float(ypr[2])); // yaw/pitch/roll
+    bndl.add("/time").add((int32_t)micros()); //time since active :: indicates a connection
+    bndl.add("/ypr").add(pi2float(ypr[0])).add(pi2float(ypr[1])).add(pi2float(ypr[2])); // yaw/pitch/roll
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
@@ -305,8 +302,8 @@ void loop() {
 
       if(!bundleIn.hasError())
       {
-        bundleIn.dispatch(ID"/leds", leds);
-        bundleIn.dispatch(ID"/update", update_interval);
+        bundleIn.dispatch("/leds", leds);
+        bundleIn.dispatch("/update", update_interval);
       }
    }
 
@@ -322,8 +319,8 @@ void loop() {
 
     if(!msgIn.hasError())
     {
-      msgIn.dispatch(ID"/leds", leds);
-      msgIn.dispatch(ID"/update", update_interval);
+      msgIn.dispatch("/leds", leds);
+      msgIn.dispatch("/update", update_interval);
     }
   }
   #endif
