@@ -71,28 +71,10 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIX, PIX_PIN, NEO_GRB + NEO_KHZ800);
 //===========================================================================//
 
-#define WIFISTATUS_PIN 14 //blinking LED pin
-int gpios[] = {0, 2, 4, 5, 14, 16}; //GPIO pins
-int gpio_len = 6;
-
 int status = 0;     // the Wifi radio's status
 
-/*Static IP*/
-//Currently not used
-IPAddress ip(192, 168, 0, 22);
-IPAddress gateway(192,168,1,1);
-IPAddress subnet(255,255,255,0);
-//===========================================================================//
 
-//set IP address of receiving system
-#ifdef ACCESSPOINT
-  IPAddress outIp(192,168,4,2); //for use as 'access point'
-
-#else
-  //IPAddress outIp(192,168, 0, 13); //set IP of SPECIFIC receiver
-  //IPAddress outIp(192, 168, 1, 108);
-  IPAddress outIp(255, 255, 255, 255); //broadcast UDP
-#endif
+IPAddress outIp(255, 255, 255, 255); //broadcast UDP
 //===========================================================================//
 
 /*port numbers*/
