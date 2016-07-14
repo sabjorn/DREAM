@@ -94,7 +94,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 742.0, 298.0, 50.0, 58.0 ],
-					"text" : "hsl 246.17421 255 0"
+					"text" : "hsl 196.711014 255 0"
 				}
 
 			}
@@ -851,7 +851,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 10.0, 381.0, 50.0, 31.0 ],
-					"text" : "152200237"
+					"text" : "118345259"
 				}
 
 			}
@@ -864,8 +864,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
-					"patching_rect" : [ 41.0, 209.0, 191.0, 20.0 ],
-					"text" : "dreamIO esp8266-0e2c16.local /4"
+					"patching_rect" : [ 41.0, 209.0, 178.0, 20.0 ],
+					"text" : "dreamIO esp8266-0e2c16.local"
 				}
 
 			}
