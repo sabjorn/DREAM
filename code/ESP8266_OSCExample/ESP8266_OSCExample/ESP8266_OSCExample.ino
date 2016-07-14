@@ -73,11 +73,10 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIX, PIX_PIN, NEO_GRB + NEO_KHZ80
 
 int status = 0;     // the Wifi radio's status
 
-
 IPAddress outIp(255, 255, 255, 255); //broadcast UDP
 //===========================================================================//
 
-/*port numbers*/
+/*UDP*/
 WiFiUDP Udp; //make ESP8266 Udp instance
 const unsigned int inPort = 8888;
 const unsigned int outPort = 9999;
@@ -85,7 +84,7 @@ const unsigned int outPort = 9999;
 
 /*UDP Scheduler*/
 long old_time, curret_time = 0;
-long delay_time = 10; //interval between UDP sends *NEEDED! Will crash otherwise
+long delay_time = 30; //interval between UDP sends *NEEDED! Will crash otherwise
 uint8_t old_val = 0;
 //===========================================================================//
 
@@ -93,19 +92,6 @@ uint8_t old_val = 0;
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 void dmpDataReady() {
     mpuInterrupt = true;
-}
-//===========================================================================//
-
-/*GPIO Control Callback*/
-void gpio(OSCMessage &msg)
-{
-  if (msg.isInt(0) && msg.isInt(1))
-  {
-    for(uint8_t i = 0; i<gpio_len; i++){
-      if(msg.getInt(0) == gpios[i])
-        digitalWrite(gpios[i], msg.getInt(1)); //LED is on LOW
-    }
-  }
 }
 //===========================================================================//
 
@@ -167,13 +153,6 @@ void setup() {
   Serial.begin(115200); 
   while (!Serial) {
     ; // wait for serial port to connect. Needed for Leonardo only
-  }
-  //=========================================================================//
-
-  /*setup GPIOs*/
-  for(uint8_t i = 0; i<gpio_len; i++)
-  {
-    pinMode(gpios[i], OUTPUT);
   }
   //=========================================================================//
 
