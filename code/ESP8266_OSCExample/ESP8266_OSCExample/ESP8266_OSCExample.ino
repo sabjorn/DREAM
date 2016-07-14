@@ -7,11 +7,12 @@ Max patch uses CNMAT OSC externals*/
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
-#include <WiFiClient.h>
-#include <WiFiClientSecure.h>
+// #include <WiFiClient.h>
+// #include <WiFiClientSecure.h>
 #include <WiFiServer.h>
 #include <WiFiUdp.h>
 #include <ESP8266mDNS.h>
+#include <ArduinoOTA.h>
 
 #include <OSCMessage.h>
 #include <OSCBundle.h>
@@ -185,21 +186,26 @@ void setup() {
   while (!Serial) {
     ; // wait for serial port to connect. Needed for Leonardo only
   }
+  //=========================================================================//
 
-  //setup GPIOs
+  /*setup GPIOs*/
   for(uint8_t i = 0; i<gpio_len; i++)
   {
     pinMode(gpios[i], OUTPUT);
   }
+  //=========================================================================//
 
-  // join I2C bus (I2Cdev library doesn't do this automatically)
+  /* join I2C bus */
+  //(I2Cdev library doesn't do this automatically)
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
       Wire.begin(SDA_PIN, SCL_PIN);
       int TWBR = 24; // 400kHz I2C clock (200kHz if CPU is 8MHz). Comment this line if having compilation difficulties with TWBR.
   #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
       Fastwire::setup(400, true);
   #endif
+  //=========================================================================//
 
+  /*MPU6050*/
   mpu.initialize();
   devStatus = mpu.dmpInitialize();
   // supply your own gyro offsets here, scaled for min sensitivity
@@ -234,10 +240,9 @@ void setup() {
       // Serial.print(devStatus);
       // Serial.println(F(")"));
   }
-
   //===========================================================================//
   
-  
+  /* Connect WiFi*/
   #ifdef ACCESSPOINT
     WiFi.mode(WIFI_AP); // make wireless access point
   #else
@@ -262,36 +267,70 @@ void setup() {
   Serial.println("You're connected to the network");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  //=========================================================================//
 
+  /*Setup OSC*/
   Udp.begin(inPort); //input Udp stream
 
+  /*Over the Air Updates*/
+  
+  //Progress Bar
+  ArduinoOTA.onStart([]() {
+    Serial.println("Start");
+  });
+  ArduinoOTA.onEnd([]() {
+    Serial.println("End");
+  });
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    Serial.printf("Progress: %u%%\n", (progress / (total / 100)));
+  });
+  ArduinoOTA.onError([](ota_error_t error) {
+    Serial.printf("Error[%u]: ", error);
+    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+    else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+    else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+    else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+    else if (error == OTA_END_ERROR) Serial.println("End Failed");
+  });
+  //Start OTA Service
+  ArduinoOTA.begin();
+  //=========================================================================//
+
+  /*Neopixels*/
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
+  //=========================================================================//
 
 }
 
 void loop() {
-  // if programming failed, don't try to do anything
-    if (!dmpReady) return;
+  ArduinoOTA.handle(); //check OTA
+  
+  if (!dmpReady) return; // if programming failed, don't try to do anything
 
-    curret_time = millis();
+  /*Scheduler*/
+  //possible make object in future  
+  curret_time = millis(); 
+  
+  // wait for MPU interrupt or extra packet(s) available
+  while (!mpuInterrupt && fifoCount < packetSize && curret_time - old_time > delay_time) {
+    /*OSC Out*/
+    //declare a bundle
+    OSCBundle bndl;
+    bndl.add(ID"/time").add((int32_t)micros()); //time since active :: indicates a connection
+    bndl.add(ID"/ypr").add(pi2float(ypr[0])).add(pi2float(ypr[1])).add(pi2float(ypr[2])); // yaw/pitch/roll
 
-    //Scheduler
-    // wait for MPU interrupt or extra packet(s) available
-    while (!mpuInterrupt && fifoCount < packetSize && curret_time - old_time > delay_time) {
-      //declare a bundle
-      OSCBundle bndl;
-      bndl.add(ID"/time").add((int32_t)micros()); //time since active :: indicates a connection
-      bndl.add(ID"/ypr").add(pi2float(ypr[0])).add(pi2float(ypr[1])).add(pi2float(ypr[2])); // yaw/pitch/roll
+    Udp.beginPacket(outIp, outPort);
+    bndl.send(Udp); // send the bytes to the SLIP stream
+    Udp.endPacket(); // mark the end of the OSC Packet
+    bndl.empty(); // empty the bundle to free room for a new one
+    //=======================================================================//
 
-      Udp.beginPacket(outIp, outPort);
-      bndl.send(Udp); // send the bytes to the SLIP stream
-      Udp.endPacket(); // mark the end of the OSC Packet
-      bndl.empty(); // empty the bundle to free room for a new one
+    old_time = millis();
+  }
+  //=========================================================================//
 
-      old_time = millis();
-    }
-
+  /*OSC In*/
   // bundle or single message select
   #ifdef BUNDLE
   //Bundle example
@@ -329,9 +368,10 @@ void loop() {
     }
   }
   #endif
+  //=========================================================================//
 
-  // reset interrupt flag and get INT_STATUS byte
-  mpuInterrupt = false;
+  /*MPU6050 Processes*/
+  mpuInterrupt = false; // reset interrupt flag and get INT_STATUS byte
   mpuIntStatus = mpu.getIntStatus();
 
   // get current FIFO count
@@ -342,9 +382,9 @@ void loop() {
       // reset so we can continue cleanly
       mpu.resetFIFO();
       //Serial.println(F("FIFO overflow!"));
-
+  } 
   // otherwise, check for DMP data ready interrupt (this should happen frequently)
-  } else if (mpuIntStatus & 0x02) {
+  else if (mpuIntStatus & 0x02) {
     // wait for correct available data length, should be a VERY short wait
     while (fifoCount < packetSize) fifoCount = mpu.getFIFOCount();
 
@@ -359,5 +399,5 @@ void loop() {
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
   }
-
+  //=========================================================================//
 }
