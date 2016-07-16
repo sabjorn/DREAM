@@ -22,6 +22,18 @@ Max patch uses CNMAT OSC externals*/
 
 #include <Math.h>
 
+/*Voltage Measurement*/
+// Voltage divider on ADC allows for a measurement of battery voltage.
+// maybe these don't need to be preprocessor
+#define V_RES float(1./256.) //the number of steps per volt
+#define R1 float(2000000.)
+#define R2 float(330000.)
+#define V_SCALE float(R2 / (R1 + R2))
+#define V_MIN float(2.6) //the undervoltage shutoff of voltage regulator
+#define V_MAX float(4.2) //the theoretical maximum voltage of LiPo
+#define SCALED_V_MIN float(V_SCALE * V_MIN / V_RES)
+#define SCALED_V_MAX float(V_SCALE * V_MAX / V_RES)
+
 //MPU
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
@@ -76,18 +88,6 @@ long old_time, curret_time = 0;
 long delay_time = 25; //interval between UDP sends *NEEDED! Will crash otherwise
 uint8_t old_val = 0;
 //===========================================================================//
-
-/*Voltage Measurement*/
-// Voltage divider on ADC allows for a measurement of battery voltage.
-// maybe these don't need to be preprocessor
-#define V_RES float(1./256.) //the number of steps per volt
-#define R1 float(2000000.)
-#define R2 float(330000.)
-#define V_SCALE float(R2 / (R1 + R2))
-#define V_MIN float(2.6) //the undervoltage shutoff of voltage regulator
-#define V_MAX float(4.2) //the theoretical maximum voltage of LiPo
-#define SCALED_V_MIN float(V_SCALE * V_MIN / V_RES)
-#define SCALED_V_MAX float(V_SCALE * V_MAX / V_RES)
 
 /*OTA*/
 int prog = 0; //keeps track of download prograss for OTA to be displayed on WS2812s
