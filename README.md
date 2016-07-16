@@ -9,13 +9,14 @@ The firmware on the board uses a OSC stream based API for the creation of comple
 
 ##Development Status
 Early development stages, version 0.~
+
 **Note**: The current PCB design in the git is broken from an attempt to fix 
 
 ##External Libraries
-    * [ESP8266 Arduino](https://github.com/esp8266/Arduino) for the ESP8266
-    * [I2CDev](https://github.com/jrowberg/i2cdevlib) for the MPU-6050
-    * [OSC](https://github.com/CNMAT/OSC) slightly modified to get it to compile for ESP8266
-    * [Adafruit NeoPixels](https://github.com/adafruit/Adafruit_NeoPixel)
+    * (ESP8266 Arduino)[https://github.com/esp8266/Arduino] for the ESP8266
+    * (I2CDev)[https://github.com/jrowberg/i2cdevlib] for the MPU-6050
+    * (OSC)[https://github.com/CNMAT/OSC] slightly modified to get it to compile for ESP8266
+    * (Adafruit NeoPixels)[https://github.com/adafruit/Adafruit_NeoPixel]
 
 ##Future
 The addition of a haptics motor is likely.
