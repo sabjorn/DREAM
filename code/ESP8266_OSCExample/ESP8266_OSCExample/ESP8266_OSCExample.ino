@@ -81,7 +81,7 @@ const unsigned int outPort = 9999;
 
 /*UDP Scheduler*/
 long old_time, curret_time = 0;
-long delay_time = 30; //interval between UDP sends *NEEDED! Will crash otherwise
+long delay_time = 25; //interval between UDP sends *NEEDED! Will crash otherwise
 uint8_t old_val = 0;
 //===========================================================================//
 

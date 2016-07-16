@@ -94,7 +94,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 742.0, 298.0, 50.0, 58.0 ],
-					"text" : "hsl 196.711014 255 0"
+					"text" : "hsl 106.713631 255 0"
 				}
 
 			}
@@ -851,7 +851,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 10.0, 381.0, 50.0, 31.0 ],
-					"text" : "118345259"
+					"text" : "9532389"
 				}
 
 			}
