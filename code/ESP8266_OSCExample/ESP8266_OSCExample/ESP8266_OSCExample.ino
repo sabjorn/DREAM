@@ -330,7 +330,7 @@ void loop() {
     /*OSC Out*/
     //declare a bundle
     OSCBundle bndl;
-    bndl.add("/time").add((int32_t)micros()); //time since active :: indicates a connection
+    bndl.add("/time").add((int32_t)millis()); //time since active :: indicates a connection
     bndl.add("/ypr").add(pi2float(ypr[0])).add(pi2float(ypr[1])).add(pi2float(ypr[2])); // yaw/pitch/roll
     bndl.add("/batt").add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
 
