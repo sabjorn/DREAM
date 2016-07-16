@@ -50,15 +50,7 @@ float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 //===========================================================================//
 
-/*Defines for changing compile time behaviour*/
-//#define BUNDLE //comment out to use Message example
-//#define ACCESSPOINT //comment out to make local access point
-//===========================================================================//
-
-/*WIFI Credentials*/
-// #define SSID "" //your network SSID (name) 
-// #define PASS "password" //your network password
-//===========================================================================//
+//MPU soft-wire
 #define SDA_PIN 13
 #define SCL_PIN 12
 
@@ -84,6 +76,18 @@ long old_time, curret_time = 0;
 long delay_time = 25; //interval between UDP sends *NEEDED! Will crash otherwise
 uint8_t old_val = 0;
 //===========================================================================//
+
+/*Voltage Measurement*/
+// Voltage divider on ADC allows for a measurement of battery voltage.
+// maybe these don't need to be preprocessor
+#define V_RES float(1./256.) //the number of steps per volt
+#define R1 float(2000000.)
+#define R2 float(330000.)
+#define V_SCALE float(R2 / (R1 + R2))
+#define V_MIN float(2.6) //the undervoltage shutoff of voltage regulator
+#define V_MAX float(4.2) //the theoretical maximum voltage of LiPo
+#define SCALED_V_MIN float(V_SCALE * V_MIN / V_RES)
+#define SCALED_V_MAX float(V_SCALE * V_MAX / V_RES)
 
 /*OTA*/
 int prog = 0; //keeps track of download prograss for OTA to be displayed on WS2812s
@@ -328,6 +332,7 @@ void loop() {
     OSCBundle bndl;
     bndl.add("/time").add((int32_t)micros()); //time since active :: indicates a connection
     bndl.add("/ypr").add(pi2float(ypr[0])).add(pi2float(ypr[1])).add(pi2float(ypr[2])); // yaw/pitch/roll
+    bndl.add("/batt").add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream

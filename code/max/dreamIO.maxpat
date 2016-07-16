@@ -29,6 +29,17 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"comment" : "Battery Voltage",
+					"id" : "obj-25",
+					"maxclass" : "outlet",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 374.5, 354.5, 25.0, 25.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-22",
@@ -119,7 +130,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 563.0, 251.0, 60.0, 18.0 ],
-					"text" : "0.49894"
+					"text" : "0.501408"
 				}
 
 			}
@@ -200,7 +211,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 407.0, 326.0, 25.0, 25.0 ]
+					"patching_rect" : [ 421.0, 354.5, 25.0, 25.0 ]
 				}
 
 			}
@@ -356,7 +367,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 336.0, 326.0, 25.0, 25.0 ]
+					"patching_rect" : [ 336.0, 354.5, 25.0, 25.0 ]
 				}
 
 			}
@@ -367,10 +378,10 @@
 					"id" : "obj-5",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 3,
-					"outlettype" : [ "", "", "" ],
-					"patching_rect" : [ 265.0, 97.0, 161.0, 20.0 ],
-					"text" : "OSC-route /time /ypr"
+					"numoutlets" : 4,
+					"outlettype" : [ "", "", "", "" ],
+					"patching_rect" : [ 265.0, 97.0, 147.0, 20.0 ],
+					"text" : "OSC-route /time /ypr /batt"
 				}
 
 			}
@@ -381,7 +392,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 265.0, 326.0, 25.0, 25.0 ]
+					"patching_rect" : [ 265.0, 354.5, 25.0, 25.0 ]
 				}
 
 			}
@@ -630,6 +641,15 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-10", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-5", 3 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-25", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-5", 2 ]
