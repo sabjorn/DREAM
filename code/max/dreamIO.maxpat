@@ -37,7 +37,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 17.0, 131.0, 75.0, 20.0 ],
-					"text" : "speedlim 10"
+					"text" : "speedlim 30"
 				}
 
 			}
@@ -119,7 +119,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 563.0, 251.0, 60.0, 18.0 ],
-					"text" : "0.68875"
+					"text" : "0.49894"
 				}
 
 			}
@@ -579,6 +579,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-30", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-22", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-31", 1 ]
 				}
 
 			}

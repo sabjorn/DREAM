@@ -85,6 +85,9 @@ long delay_time = 30; //interval between UDP sends *NEEDED! Will crash otherwise
 uint8_t old_val = 0;
 //===========================================================================//
 
+/*OTA*/
+int prog = 0; //keeps track of download prograss for OTA to be displayed on WS2812s
+
 /*Interrupt Detection Routine*/
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 void dmpDataReady() {
@@ -142,6 +145,7 @@ void update_interval(OSCMessage &msg)
 }
 
 float pi2float(float in){
+  //gotta change this later, the Pitch and Roll just use -Pi->Pi
   return ((in / M_PI) + 1) / 2;
 }
 
@@ -151,6 +155,11 @@ void setup() {
   while (!Serial) {
     ; // wait for serial port to connect. Needed for Leonardo only
   }
+  //=========================================================================//
+
+  /*Neopixels*/
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
   //=========================================================================//
 
   /* join I2C bus */
@@ -200,48 +209,89 @@ void setup() {
   }
   //===========================================================================//
   
-  /* Connect WiFi*/
-  #ifdef ACCESSPOINT
-    WiFi.mode(WIFI_AP); // make wireless access point
-  #else
-    // attempt to connect to Wifi network:
-    while ( status != WL_CONNECTED) 
-    { 
-      Serial.print("Attempting to connect to WPA SSID: ");
-      Serial.println(SSID);
-      
-      WiFi.hostname("testname");
-      // Connect to WPA/WPA2 network: 
-      WiFi.mode(WIFI_STA);   
-      status = WiFi.begin(SSID, PASS);
-      
-      //WiFi.config(ip, gateway, subnet); //experimental
-      // wait 1 seconds for connection:
-      delay(1000);
+  uint8_t wifi_loading = 0;
+
+  // attempt to connect to Wifi network:
+  while ( status != WL_CONNECTED) 
+  { 
+    Serial.print("Attempting to connect to WPA SSID: ");
+    Serial.println(SSID);
+    
+    WiFi.hostname("testname");
+    // Connect to WPA/WPA2 network: 
+    WiFi.mode(WIFI_STA);   
+    status = WiFi.begin(SSID, PASS);
+    
+    //LEDs cycle through R/G/B while connecting
+    for (uint16_t i = 0; i < NUMPIX; ++i)
+    {
+      switch(wifi_loading % 3){
+        case 0:
+          strip.setPixelColor(i, 255, 0, 0);
+          break;
+        case 1:
+          strip.setPixelColor(i, 0, 255, 0);
+          break;
+        case 2:
+          strip.setPixelColor(i, 0, 0, 255);
+          break;
+      }
     }
-  #endif
+    strip.show();
+    wifi_loading++;
+
+    // wait 1 seconds for connection:
+    delay(1000);
+  }
+  
+  //clear
+  for (uint16_t i = 0; i < NUMPIX; i++)
+    strip.setPixelColor(i, 0);
+  strip.show();
 
   // you're connected now, so print out the data:
-  Serial.println("You're connected to the network");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+  // Serial.println("You're connected to the network");
+  // Serial.print("IP address: ");
+  // Serial.println(WiFi.localIP());
   //=========================================================================//
 
   /*Setup OSC*/
   Udp.begin(inPort); //input Udp stream
 
-  /*Over the Air Updates*/
-  
+  /*Over the Air Updates*/  
   //Progress Bar
   ArduinoOTA.onStart([]() {
     Serial.println("Start");
   });
+
   ArduinoOTA.onEnd([]() {
     Serial.println("End");
+
+    //LEDs turn blue when update complete
+    for (uint16_t i = 0; i < NUMPIX; i++)
+      strip.setPixelColor(i, 0, 0, 255);
+    strip.show();
   });
+
   ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     Serial.printf("Progress: %u%%\n", (progress / (total / 100)));
+
+    if (prog != progress/float(total) * (NUMPIX+1))
+    {
+      for (uint16_t i = 0; i < NUMPIX; ++i)
+      {
+        if(i < prog)
+          strip.setPixelColor(i, 0, 255, 0);
+        else
+          strip.setPixelColor(i, 0);
+      }
+      strip.show();
+
+      prog = progress/float(total) * NUMPIX;
+    }
+
   });
+
   ArduinoOTA.onError([](ota_error_t error) {
     Serial.printf("Error[%u]: ", error);
     if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
@@ -249,14 +299,15 @@ void setup() {
     else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
     else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
     else if (error == OTA_END_ERROR) Serial.println("End Failed");
+
+    //LEDs turn red if failed to update
+    for (uint16_t i = 0; i < NUMPIX; i++)
+      strip.setPixelColor(i, 255, 0, 0);
+    strip.show();
   });
+
   //Start OTA Service
   ArduinoOTA.begin();
-  //=========================================================================//
-
-  /*Neopixels*/
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
   //=========================================================================//
 
 }
@@ -295,17 +346,17 @@ void loop() {
   OSCBundle bundleIn;
   int size;
  
-   if( (size = Udp.parsePacket())>0)
-   {
-     while(size--)
-       bundleIn.fill(Udp.read());
+  if( (size = Udp.parsePacket())>0)
+  {
+    while(size--)
+     bundleIn.fill(Udp.read());
 
-      if(!bundleIn.hasError())
-      {
-        bundleIn.dispatch("/leds", leds);
-        bundleIn.dispatch("/update", update_interval);
-      }
-   }
+    if(!bundleIn.hasError())
+    {
+      bundleIn.dispatch("/leds", leds);
+      bundleIn.dispatch("/update", update_interval);
+    }
+  }
 
   #else
   // single message example
