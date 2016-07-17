@@ -221,7 +221,6 @@ void setup() {
     Serial.print("Attempting to connect to WPA SSID: ");
     Serial.println(SSID);
     
-    WiFi.hostname("testname");
     // Connect to WPA/WPA2 network: 
     WiFi.mode(WIFI_STA);   
     status = WiFi.begin(SSID, PASS);
