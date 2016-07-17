@@ -33,7 +33,7 @@ Max patch uses CNMAT OSC externals*/
 #define SCALED_V_MIN float(V_SCALE * V_MIN / V_RES)
 #define SCALED_V_MAX float(V_SCALE * V_MAX / V_RES)
 
-//MPU
+/*MPU*/
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 
@@ -93,6 +93,7 @@ uint8_t old_val = 0;
 
 /*OTA*/
 int prog = 0; //keeps track of download prograss for OTA to be displayed on WS2812s
+//===========================================================================//
 
 /*Interrupt Detection Routine*/
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
@@ -269,6 +270,7 @@ void setup() {
     strip.show();
     wifi_loading++;
 
+
     // wait 1 seconds for connection:
     delay(1000);
   }
@@ -365,11 +367,25 @@ void loop() {
     /*OSC Out*/
     //declare a bundle
     OSCBundle bndl;
-    bndl.add("/time").add((int32_t)millis()); //time since active :: indicates a connection
-    bndl.add("/ypr").add(ypr[0]).add(ypr[1]).add(ypr[2]); // yaw/pitch/roll
-    bndl.add("/batt").add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
-    bndl.add("/side").add(current_side);
-    bndl.add("/debug").add(current_side);
+
+    //deals with generating the output endpoints automatically (adding ChipID for unique)
+    //note: in the future this should be handled better (object or at least function)
+    char concat[80];
+
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/time");
+    bndl.add(concat).add((int32_t)millis()); //time since active :: indicates a connection
+    
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/ypr");
+    bndl.add(concat).add(ypr[0]).add(ypr[1]).add(ypr[2]); // yaw/pitch/roll
+
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/batt");
+    bndl.add(concat).add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
+    
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/side");
+    bndl.add(concat).add(current_side);
+
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/debug");
+    bndl.add(concat).add(0);//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
