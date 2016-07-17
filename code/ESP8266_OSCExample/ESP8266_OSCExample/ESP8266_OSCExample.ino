@@ -338,7 +338,8 @@ void loop() {
     bndl.add("/time").add((int32_t)millis()); //time since active :: indicates a connection
     bndl.add("/ypr").add(pi2float(ypr[0])).add(pi2float(ypr[1])).add(pi2float(ypr[2])); // yaw/pitch/roll
     bndl.add("/batt").add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
-
+    bndl.add("/debug").add(ypr[0]).add(ypr[1]).add(ypr[2]);
+    
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
     Udp.endPacket(); // mark the end of the OSC Packet
