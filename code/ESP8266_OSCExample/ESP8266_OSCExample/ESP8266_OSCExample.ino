@@ -4,7 +4,6 @@ Written by: Steven A. Bjornson | 19/12/15
 
 Included is a Max/MSP patch for controlling a single LED on board.
 Max patch uses CNMAT OSC externals*/
-
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 // #include <WiFiClient.h>
@@ -154,10 +153,9 @@ void reset(OSCMessage &msg)
   ESP.reset();
 }
 
-float pi2float(float in){
-  //gotta change this later, the Pitch and Roll just use -Pi->Pi
-  return ((in / M_PI) + 1) / 2;
-}
+float max_ypr[3] = {-10, -10, -10};
+float min_ypr[3] = {10, 10, 10};
+
 
 void setup() {
   //Initialize serial and wait for port to open:
@@ -336,10 +334,10 @@ void loop() {
     //declare a bundle
     OSCBundle bndl;
     bndl.add("/time").add((int32_t)millis()); //time since active :: indicates a connection
-    bndl.add("/ypr").add(pi2float(ypr[0])).add(pi2float(ypr[1])).add(pi2float(ypr[2])); // yaw/pitch/roll
+    bndl.add("/ypr").add(ypr[0]).add(ypr[1]).add(ypr[2]); // yaw/pitch/roll
     bndl.add("/batt").add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
-    bndl.add("/debug").add(ypr[0]).add(ypr[1]).add(ypr[2]);
-    
+    bndl.add("/debug").add(min_ypr[0]).add(max_ypr[0]).add(min_ypr[1]).add(max_ypr[1]).add(min_ypr[2]).add(max_ypr[2]);
+
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
     Udp.endPacket(); // mark the end of the OSC Packet
@@ -403,6 +401,13 @@ void loop() {
     mpu.dmpGetQuaternion(&q, fifoBuffer);
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+
+    for (int i = 0; i < 3; ++i){
+      if (i == 0)
+        ypr[i] = ((ypr[i] / M_PI) + 1) / 2;
+      else
+        ypr[i] = ((ypr[i] / (M_PI/2.)) + 1) / 2;
+    }
   }
   //=========================================================================//
 }
