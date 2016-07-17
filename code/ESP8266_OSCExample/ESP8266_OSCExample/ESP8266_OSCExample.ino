@@ -148,6 +148,12 @@ void update_interval(OSCMessage &msg)
     delay_time = 10;
 }
 
+//callback to restart ESP
+void reset(OSCMessage &msg)
+{
+  ESP.reset();
+}
+
 float pi2float(float in){
   //gotta change this later, the Pitch and Roll just use -Pi->Pi
   return ((in / M_PI) + 1) / 2;
@@ -344,41 +350,28 @@ void loop() {
   //=========================================================================//
 
   /*OSC In*/
-  // bundle or single message select
   #ifdef BUNDLE
-  //Bundle example
-  OSCBundle bundleIn;
+    //Bundle example
+    OSCBundle OSCin;
+  #else
+    // single message example
+    OSCMessage OSCin;
+  #endif
+  
   int size;
  
   if( (size = Udp.parsePacket())>0)
   {
     while(size--)
-     bundleIn.fill(Udp.read());
+     OSCin.fill(Udp.read());
 
-    if(!bundleIn.hasError())
+    if(!OSCin.hasError())
     {
-      bundleIn.dispatch("/leds", leds);
-      bundleIn.dispatch("/update", update_interval);
+      OSCin.dispatch("/leds", leds);
+      OSCin.dispatch("/update", update_interval);
+      OSCin.dispatch("/reset", reset);
     }
   }
-
-  #else
-  // single message example
-  OSCMessage msgIn;
-  int size;
- 
-  if( (size = Udp.parsePacket())>0)
-  {
-   while(size--)
-     msgIn.fill(Udp.read());
-
-    if(!msgIn.hasError())
-    {
-      msgIn.dispatch("/leds", leds);
-      msgIn.dispatch("/update", update_interval);
-    }
-  }
-  #endif
   //=========================================================================//
 
   /*MPU6050 Processes*/
