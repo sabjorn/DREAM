@@ -61,6 +61,9 @@ float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 //===========================================================================//
 
+//enum for storing current box side
+enum sides{BOTTOM, TOP, BACK, FRONT, LEFT, RIGHT}; //currently unused but should be turned into object
+
 //MPU soft-wire
 #define SDA_PIN 13
 #define SCL_PIN 12
@@ -153,8 +156,27 @@ void reset(OSCMessage &msg)
   ESP.reset();
 }
 
-float max_ypr[3] = {-10, -10, -10};
-float min_ypr[3] = {10, 10, 10};
+// figure out which side the box is on
+//this should likely be an object which has an update to see if anything changes
+// possibly with a status that the box is floating? if this method exists, then the side
+// would only be calculated if the box was relatively stable
+uint8_t current_side = 0;
+uint8_t get_side(uint8_t current_side_, VectorFloat* gravity){
+  if(gravity->z < -.8)
+    current_side_ = 0; //bottom down
+  else if(gravity->z > .8)
+    current_side_ = 1; //top
+  else if(gravity->x < -.8)
+    current_side_ = 2; //back
+  else if(gravity->x > .8)
+    current_side_ = 3; //front
+  else if(gravity->y < -.8)
+    current_side_ = 4; //left
+  else if(gravity->y > .8)
+    current_side_ = 5; //right
+
+  return current_side_;
+}
 
 
 void setup() {
@@ -330,13 +352,24 @@ void loop() {
   
   // wait for MPU interrupt or extra packet(s) available
   while (!mpuInterrupt && fifoCount < packetSize && curret_time - old_time > delay_time) {
+    // convert ypr to [0, 1]
+    for (int i = 0; i < 3; ++i){
+      if (i == 0)
+        ypr[i] = ((ypr[i] / M_PI) + 1) / 2;
+      else
+        ypr[i] = ((ypr[i] / (M_PI/2.)) + 1) / 2;
+    }
+
+    current_side = get_side(current_side, &gravity);
+
     /*OSC Out*/
     //declare a bundle
     OSCBundle bndl;
     bndl.add("/time").add((int32_t)millis()); //time since active :: indicates a connection
     bndl.add("/ypr").add(ypr[0]).add(ypr[1]).add(ypr[2]); // yaw/pitch/roll
     bndl.add("/batt").add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
-    bndl.add("/debug").add(min_ypr[0]).add(max_ypr[0]).add(min_ypr[1]).add(max_ypr[1]).add(min_ypr[2]).add(max_ypr[2]);
+    bndl.add("/side").add(current_side);
+    bndl.add("/debug").add(current_side);
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
@@ -401,13 +434,6 @@ void loop() {
     mpu.dmpGetQuaternion(&q, fifoBuffer);
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-
-    for (int i = 0; i < 3; ++i){
-      if (i == 0)
-        ypr[i] = ((ypr[i] / M_PI) + 1) / 2;
-      else
-        ypr[i] = ((ypr[i] / (M_PI/2.)) + 1) / 2;
-    }
   }
   //=========================================================================//
 }
