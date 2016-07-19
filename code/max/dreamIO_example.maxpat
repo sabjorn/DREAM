@@ -31,12 +31,29 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-12",
+					"linecount" : 6,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 800.916748, 554.0, 162.0, 87.0 ],
+					"text" : "ports should be changeable via OSC\nand\nsending address (option to change from 255.255.255.255)"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
 					"id" : "obj-8",
+					"linecount" : 3,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 686.0, 544.0, 50.0, 18.0 ]
+					"patching_rect" : [ 686.0, 544.0, 50.0, 45.0 ],
+					"text" : "/0e2b06/debug 0"
 				}
 
 			}
@@ -975,7 +992,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 10.0, 287.0, 50.0, 18.0 ],
-					"text" : "325691"
+					"text" : "84493"
 				}
 
 			}
