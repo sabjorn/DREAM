@@ -22,17 +22,16 @@ s.addDefaultHandlers()
 # define a message-handle function for the server to call.
 
 def time(addr, tags, args, source):
-    print args[0]
+    print "Time Active (s): {0}".format(args[0]/1000)
 
 def ypr(addr, tags, args, source):
-    print args[0]
-    #print "Y{} P{} R{}".format(args)
+    print "Y:{0}\tP{1}\tR{2}".format(args[0], args[1], args[2])
 
 def batt(addr, tags, args, source):
-    pass
+    print "Battery (%): {0}".format(args[0])
 
 def side(addr, tags, args, source):
-    pass
+    print "Current Side: {0}".format(args[0])
 
 def debug(addr, tags, args, source):
     pass
