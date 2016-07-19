@@ -16,7 +16,7 @@ s = OSC.ThreadingOSCServer(receive_address) # ng
 # this registers a 'default' handler (for unmatched messages),
 # an /'error' handler, an '/info' handler.
 # And, if the client supports iet, a '/subscribe' & '/unsubscribe' handler
-s.addDefaultHandlers()
+#s.addDefaultHandlers()
 
 
 # define a message-handle function for the server to call.
