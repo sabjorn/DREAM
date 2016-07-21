@@ -35,6 +35,12 @@ if __name__ == "__main__":
                         help='the dreamIO endpoint which is being recorded')
     parser.add_argument("--update", "--u", type=int, default=25,
                         help='change the broadcast update interval on dreamIO side')
+    parser.add_argument("--red", "--r", type=int, default=0,
+                        help='set the red value for all leds')
+    parser.add_argument("--green", "--g", type=int, default=0,
+                        help='set the green value for all leds')
+    parser.add_argument("--blue", "--b", type=int, default=0,
+                        help='set the blue value for all leds')
     parser.add_argument("--port", "--p", type=int, default=9999,
                         help="the UDP recieve port to listen on")
     args = parser.parse_args()
@@ -42,17 +48,26 @@ if __name__ == "__main__":
     endpoint = '/{0}'.format(args.endpoint)
     receive_address = '', args.port #blank = 0.0.0.0, which binds to all?
 
+    c = OSC.OSCClient()
+    c.connect(('esp8266-{0}.local'.format(endpoint[1:]), 8888))
+    oscmsg = OSC.OSCMessage()
+    oscmsg.setAddress("/leds")
+    oscmsg.append(args.red)
+    oscmsg.append(args.green)
+    oscmsg.append(args.blue)
+    c.send(oscmsg)
+    oscmsg.clear()
+
+
     #send 
     if(args.update is not 25):
         print("sending new update rate")
-        c = OSC.OSCClient()
-        c.connect(('esp8266-{0}.local'.format(endpoint[1:]), 8888))
-        oscmsg = OSC.OSCMessage()
         oscmsg.setAddress("/update")
         oscmsg.append(args.update)
         c.send(oscmsg)
-        c.close()
-        oscmsg.clear()
+    
+    c.close()
+    oscmsg.clear()
 
     # OSC Server. there are three different types of server.
     s = OSC.OSCServer(receive_address)  # basic
@@ -85,7 +100,8 @@ if __name__ == "__main__":
 
     # write header
     today = strftime("%d-%m-%y-%s")
-    output_file = open('datarecord_{0}_{1}_{2}.csv'.format(today, endpoint[1:-1], args.update) , 'wb')
+    output_file = open('datarecord_{0}_{1}_{2}{3}r{4}g{5}b.csv'
+                       .format(today, endpoint[1:-1], args.update, args.red, args.green, args.blue) , 'wb')
     dict_writer = csv.DictWriter(output_file, vals.keys())
     dict_writer.writeheader()
 
