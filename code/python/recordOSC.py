@@ -40,9 +40,19 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     endpoint = '/{0}'.format(args.endpoint)
-    
-    # tupple with ip, port.
     receive_address = '', args.port #blank = 0.0.0.0, which binds to all?
+
+    #send 
+    if(args.update is not 25):
+        print("sending new update rate")
+        c = OSC.OSCClient()
+        c.connect(('esp8266-{0}.local'.format(endpoint[1:]), 8888))
+        oscmsg = OSC.OSCMessage()
+        oscmsg.setAddress("/update")
+        oscmsg.append(args.update)
+        c.send(oscmsg)
+        c.close()
+        oscmsg.clear()
 
     # OSC Server. there are three different types of server.
     s = OSC.OSCServer(receive_address)  # basic

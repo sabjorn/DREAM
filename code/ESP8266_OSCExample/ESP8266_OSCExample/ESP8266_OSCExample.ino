@@ -87,7 +87,7 @@ const unsigned int outPort = 9999;
 
 /*UDP Scheduler*/
 long old_time, curret_time = 0;
-long delay_time = 25; //interval between UDP sends *NEEDED! Will crash otherwise
+long schedule_time = 25; //interval between UDP sends *NEEDED! Will crash otherwise
 uint8_t old_val = 0;
 //===========================================================================//
 
@@ -139,16 +139,16 @@ void leds(OSCMessage &msg)
 }
 //===========================================================================//
 
-//Callback to change delay_time
+//Callback to change schedule_time
 void update_interval(OSCMessage &msg)
 {
   if(msg.isInt(0))
-    delay_time = long(msg.getInt(0));
+    schedule_time = long(msg.getInt(0));
   if(msg.isFloat(0))
-    delay_time = long(msg.getFloat(0));
+    schedule_time = long(msg.getFloat(0));
 
-  if (delay_time < 10)
-    delay_time = 10;
+  if (schedule_time < 10)
+    schedule_time = 10;
 }
 
 //callback to restart ESP
@@ -353,7 +353,7 @@ void loop() {
   curret_time = millis(); 
   
   // wait for MPU interrupt or extra packet(s) available
-  while (!mpuInterrupt && fifoCount < packetSize && curret_time - old_time > delay_time) {
+  while (!mpuInterrupt && fifoCount < packetSize && curret_time - old_time > schedule_time) {
     // convert ypr to [0, 1]
     for (int i = 0; i < 3; ++i){
       if (i == 0)
@@ -385,7 +385,7 @@ void loop() {
     bndl.add(concat).add(current_side);
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/debug");
-    bndl.add(concat).add(0);//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
+    bndl.add(concat).add(int(schedule_time));//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
