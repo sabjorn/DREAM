@@ -93,7 +93,7 @@ if __name__ == "__main__":
     st.start()
 
     # define a message-handle function for the server to call.
-    vals = {'time':-1, 'y':-1, 'p':-1,'r':-1, 'batt':-1,'side':-1}
+    vals = {'time':-1, 'y':-1, 'p':-1,'r':-1, 'batt':-1,'side':-1, 'linux_time':-1}
     out = []
     buff = 256 #number of vals to collect before store
     old_time = 0
@@ -108,6 +108,7 @@ if __name__ == "__main__":
     try:
         while 1:
             # if any values in dictionary are -1 then not ready to write
+            vals['linux_time'] = strftime("%H:%M")
             if (-1 not in vals.values()):
                 out.append(copy.copy(vals)) #copy to buffer
                 print('recieved\tmess: {0}\ttime diff:{1}'.format(len(out),(vals['time']-old_time)))
