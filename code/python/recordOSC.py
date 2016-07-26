@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
     # write header
     today = strftime("%d-%m-%y-%s")
-    output_file = open('datarecord_{0}_{1}_{2}{3}r{4}g{5}b.csv'
+    output_file = open('datarecord_{0}_{1}_{2}_r{3}g{4}b{5}.csv'
                        .format(today, endpoint[1:-1], args.update, args.red, args.green, args.blue) , 'wb')
     dict_writer = csv.DictWriter(output_file, vals.keys())
     dict_writer.writeheader()
