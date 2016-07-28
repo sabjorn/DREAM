@@ -41,7 +41,6 @@ if __name__ == "__main__":
     c.send(oscmsg)
     oscmsg.clear()
 
-
     #send 
     if(args.update is not 25):
         print("sending new update rate")
@@ -76,10 +75,12 @@ if __name__ == "__main__":
             vals['r'] = data[1][4]
             vals['batt'] = data[2][2]
             vals['side'] = data[3][2]
-            
-            out.append(vals)
+
             print('recieved\tmess: {0}\ttime diff:{1}'.format(len(out),(vals['time']-old_time)))
             old_time = vals['time']
+
+            out.append(copy.copy(vals))
+            vals = dict.fromkeys(vals, -1) #clear dict
 
             if(len(out) > buff):
                 dict_writer.writerows(out)
