@@ -95,6 +95,11 @@ uint8_t old_val = 0;
 int prog = 0; //keeps track of download prograss for OTA to be displayed on WS2812s
 //===========================================================================//
 
+/*Packet Counter*/
+// countes every time a UDP packet is sent
+uint64_t pack_count = 0;
+//===========================================================================//
+
 /*Interrupt Detection Routine*/
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 void dmpDataReady() {
@@ -385,7 +390,7 @@ void loop() {
     bndl.add(concat).add(current_side);
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/debug");
-    bndl.add(concat).add(int(schedule_time));//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
+    bndl.add(concat).add(pack_count);//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
@@ -393,6 +398,7 @@ void loop() {
     bndl.empty(); // empty the bundle to free room for a new one
     //=======================================================================//
 
+    pack_count++;
     old_time = millis();
   }
   //=========================================================================//

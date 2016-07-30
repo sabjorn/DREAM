@@ -180,7 +180,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "reset" ],
+					"outlettype" : [ "" ],
 					"patching_rect" : [ 17.0, 14.0, 25.0, 25.0 ]
 				}
 
