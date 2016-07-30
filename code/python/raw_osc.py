@@ -52,7 +52,7 @@ if __name__ == "__main__":
     oscmsg.clear()
 
     # define a message-handle function for the server to call.
-    vals = {'time':-1, 'y':-1, 'p':-1,'r':-1, 'batt':-1,'side':-1}
+    vals = {'time':-1, 'y':-1, 'p':-1,'r':-1, 'batt':-1,'side':-1, 'packet':-1}
     out = []
     buff = 256 #number of vals to collect before store
     old_time = 0
@@ -75,6 +75,7 @@ if __name__ == "__main__":
             vals['r'] = data[1][4]
             vals['batt'] = data[2][2]
             vals['side'] = data[3][2]
+            vals['packet'] = data[4][2]
 
             print('recieved\tmess: {0}\ttime diff:{1}'.format(len(out),(vals['time']-old_time)))
             old_time = vals['time']
