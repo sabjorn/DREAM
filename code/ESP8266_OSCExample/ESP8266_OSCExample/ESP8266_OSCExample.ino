@@ -390,7 +390,7 @@ void loop() {
     bndl.add(concat).add(current_side);
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/debug");
-    bndl.add(concat).add(pack_count);//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
+    bndl.add(concat).add(int(pack_count));//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
@@ -398,7 +398,7 @@ void loop() {
     bndl.empty(); // empty the bundle to free room for a new one
     //=======================================================================//
 
-    pack_count++;
+    pack_count += 1;
     old_time = millis();
   }
   //=========================================================================//
