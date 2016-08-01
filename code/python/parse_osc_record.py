@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     time_hist = np.bincount(time_diff.astype('int64'))
     largest_val = np.argmax(time_hist)
-    time_error_hist =  time_hist / float(len(time_diff)) #the error
+    time_error_hist =  time_hist / float(largest_val) #the error
 
     #how many packets lost
     packet_diff = np.diff(data['packet'])
