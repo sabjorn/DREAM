@@ -91,6 +91,8 @@ long schedule_time = 25; //interval between UDP sends *NEEDED! Will crash otherw
 uint8_t old_val = 0;
 //===========================================================================//
 
+int motion_int = 0;
+
 /*OTA*/
 int prog = 0; //keeps track of download prograss for OTA to be displayed on WS2812s
 //===========================================================================//
@@ -216,6 +218,10 @@ void setup() {
   mpu.setYGyroOffset(76);
   mpu.setZGyroOffset(-85);
   mpu.setZAccelOffset(1788); // 1688 factory default for my test chip
+  
+  mpu.setMotionDetectionDuration(1);
+  mpu.setMotionDetectionThreshold(1);
+  mpu.setIntMotionEnabled(1); //setup motion check
 
   // make sure it worked (returns 0 if so)
   if (devStatus == 0) {
@@ -390,7 +396,7 @@ void loop() {
     bndl.add(concat).add(current_side);
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/debug");
-    bndl.add(concat).add(int(pack_count));//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
+    bndl.add(concat).add(motion_int);//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
@@ -456,6 +462,7 @@ void loop() {
     mpu.dmpGetQuaternion(&q, fifoBuffer);
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+    motion_int = mpu.getIntMotionStatus();
   }
   //=========================================================================//
 }
