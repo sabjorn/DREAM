@@ -402,7 +402,7 @@ void loop() {
     bndl.add(concat).add(scaleInt16(aaReal.x)).add(scaleInt16(aaReal.y)).add(scaleInt16(aaReal.z)); //raw acceleration
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/gyro");
-    bndl.add(concat).add(float(gyro.x/sensitivity)).add(float(gyro.y/sensitivity)).add(float(gyro.z/sensitivity)); //raw gyroscope
+    bndl.add(concat).add(float(gyro.z/sensitivity)).add(float(gyro.y/sensitivity)).add(float(gyro.x/sensitivity)); //raw gyroscope
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/batt");
     bndl.add(concat).add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
