@@ -34,7 +34,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 453.200012, 354.5, 25.0, 25.0 ]
+					"patching_rect" : [ 452.142853, 354.5, 25.0, 25.0 ]
 				}
 
 			}
@@ -45,7 +45,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 414.714294, 354.5, 25.0, 25.0 ]
+					"patching_rect" : [ 377.285706, 354.5, 25.0, 25.0 ]
 				}
 
 			}
@@ -124,7 +124,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 377.285706, 354.5, 25.0, 25.0 ]
+					"patching_rect" : [ 414.714294, 354.5, 25.0, 25.0 ]
 				}
 
 			}
@@ -482,7 +482,7 @@
 					"numoutlets" : 8,
 					"outlettype" : [ "", "", "", "", "", "", "", "" ],
 					"patching_rect" : [ 265.0, 97.0, 281.0, 20.0 ],
-					"text" : "OSC-route /time /batt /ypr /accel /gyro /side /debug"
+					"text" : "OSC-route /time /batt /ypr /gyro /accel /side /debug"
 				}
 
 			}
@@ -807,7 +807,7 @@
 					"destination" : [ "obj-13", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-5", 3 ]
+					"source" : [ "obj-5", 4 ]
 				}
 
 			}
@@ -825,7 +825,7 @@
 					"destination" : [ "obj-24", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-5", 4 ]
+					"source" : [ "obj-5", 3 ]
 				}
 
 			}
