@@ -363,7 +363,7 @@ void setup() {
 void loop() {
   ArduinoOTA.handle(); //check OTA
   
-  if (!dmpReady) return; // if programming failed, don't try to do anything
+  //if (!dmpReady) return; // if programming failed, don't try to do anything
 
   /*Scheduler*/
   //possible make object in future  
@@ -396,12 +396,10 @@ void loop() {
     bndl.add(concat).add(ypr[0]).add(ypr[1]).add(ypr[2]); //yaw/pitch/roll
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/accel");
-    // float tempx, tempy, tempz;
-    // tempx = float(aaReal.x/float(32768));
     bndl.add(concat).add(scaleInt16(aaReal.x)).add(scaleInt16(aaReal.y)).add(scaleInt16(aaReal.z)); //raw acceleration
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/gyro");
-    bndl.add(concat).add(float(gyro.x/32768)).add(float(gyro.y/32768)).add(float(gyro.z/32768)); //raw gyroscope
+    bndl.add(concat).add(scaleInt16(gyro.x)).add(scaleInt16(gyro.y)).add(scaleInt16(gyro.z)); //raw gyroscope
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/batt");
     bndl.add(concat).add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
