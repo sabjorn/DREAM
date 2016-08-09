@@ -61,7 +61,10 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 VectorInt16 gyro;
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+
+#define sensitivity float(2000) //the curent sensativity of the gyroscop
 //===========================================================================//
+
 
 //enum for storing current box side
 enum sides{BOTTOM, TOP, BACK, FRONT, LEFT, RIGHT}; //currently unused but should be turned into object
@@ -399,7 +402,7 @@ void loop() {
     bndl.add(concat).add(scaleInt16(aaReal.x)).add(scaleInt16(aaReal.y)).add(scaleInt16(aaReal.z)); //raw acceleration
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/gyro");
-    bndl.add(concat).add(scaleInt16(gyro.x)).add(scaleInt16(gyro.y)).add(scaleInt16(gyro.z)); //raw gyroscope
+    bndl.add(concat).add(float(gyro.x/sensitivity)).add(float(gyro.y/sensitivity)).add(float(gyro.z/sensitivity)); //raw gyroscope
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/batt");
     bndl.add(concat).add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
