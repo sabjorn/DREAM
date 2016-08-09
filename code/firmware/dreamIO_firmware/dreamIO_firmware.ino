@@ -20,6 +20,7 @@ Max patch uses CNMAT OSC externals*/
 #include "wifiCred.h" //used to store SSID and PASS
 
 #include <Math.h>
+#include <cstdint>
 
 /*Voltage Measurement*/
 // Voltage divider on ADC allows for a measurement of battery voltage.
@@ -57,9 +58,13 @@ VectorInt16 aa;         // [x, y, z]            accel sensor measurements
 VectorInt16 aaReal;     // [x, y, z]            gravity-free accel sensor measurements
 VectorInt16 aaWorld;    // [x, y, z]            world-frame accel sensor measurements
 VectorFloat gravity;    // [x, y, z]            gravity vector
+VectorInt16 gyro;
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+
+#define sensitivity float(2000) //the curent sensativity of the gyroscop
 //===========================================================================//
+
 
 //enum for storing current box side
 enum sides{BOTTOM, TOP, BACK, FRONT, LEFT, RIGHT}; //currently unused but should be turned into object
@@ -108,6 +113,16 @@ void dmpDataReady() {
     mpuInterrupt = true;
 }
 //===========================================================================//
+
+// converts Int16 to [-1, 1]
+float scaleInt16(int16_t x){
+  if(x > 0)
+    return float(x)/float(INT16_MAX);
+  else if(x < 0)
+    return float(x)/float(INT16_MIN);
+  else
+    return 0;
+}
 
 /*Neopixel Control Callback*/
 void leds(OSCMessage &msg)
@@ -357,7 +372,7 @@ void setup() {
 void loop() {
   ArduinoOTA.handle(); //check OTA
   
-  if (!dmpReady) return; // if programming failed, don't try to do anything
+  //if (!dmpReady) return; // if programming failed, don't try to do anything
 
   /*Scheduler*/
   //possible make object in future  
@@ -387,7 +402,13 @@ void loop() {
     bndl.add(concat).add((int32_t)millis()); //time since active :: indicates a connection
     
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/ypr");
-    bndl.add(concat).add(ypr[0]).add(ypr[1]).add(ypr[2]); // yaw/pitch/roll
+    bndl.add(concat).add(ypr[0]).add(ypr[1]).add(ypr[2]); //yaw/pitch/roll
+
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/accel");
+    bndl.add(concat).add(scaleInt16(aaReal.x)).add(scaleInt16(aaReal.y)).add(scaleInt16(aaReal.z)); //raw acceleration
+
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/gyro");
+    bndl.add(concat).add(float(gyro.z/sensitivity)).add(float(gyro.y/sensitivity)).add(float(gyro.x/sensitivity)); //raw gyroscope
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/batt");
     bndl.add(concat).add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
@@ -461,6 +482,9 @@ void loop() {
 
     mpu.dmpGetQuaternion(&q, fifoBuffer);
     mpu.dmpGetGravity(&gravity, &q);
+    mpu.dmpGetAccel(&aa, fifoBuffer);
+    mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
+    mpu.dmpGetGyro(&gyro, fifoBuffer);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
     motion_int = mpu.getIntMotionStatus();
   }
