@@ -34,6 +34,8 @@ Max patch uses CNMAT OSC externals*/
 #define SCALED_V_MIN float(V_SCALE * V_MIN / V_RES)
 #define SCALED_V_MAX float(V_SCALE * V_MAX / V_RES)
 
+#define abs(x) ((x)>0?(x):-(x)) //taken from STD
+
 /*MPU*/
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
@@ -61,6 +63,9 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 VectorInt16 gyro;
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+
+float gyrothresh = 0.005; //trigger for checking for activity
+float accelthresh = 0.100; //trigger for checking for activity
 
 #define sensitivity float(2000) //the curent sensativity of the gyroscop
 //===========================================================================//
@@ -303,6 +308,26 @@ void hslToRgb(double h, double sl, double l, uint16_t *rgb)
       rgb[2] = b * 255.0f;
 }
 
+// checks if acceleration in any direction
+bool isAccelMotion(VectorInt16 *motion, float thresh){
+  float x, y, z;
+  x = scaleInt16(motion->x);
+  y = scaleInt16(motion->y);
+  z = scaleInt16(motion->z);
+  return (x > thresh | y > thresh | z > thresh);
+}
+
+bool isGyroMotion(VectorInt16 *motion, float thresh){
+  float x, y, z;
+  x = motion->x/sensitivity;
+  y = motion->y/sensitivity;
+  z = motion->z/sensitivity;
+  return (x > thresh | y > thresh | z > thresh);
+}
+
+bool isMotion(VectorInt16 *aa, float aathresh, VectorInt16 *gyro, float gyrothresh){
+  return (isAccelMotion(aa, aathresh) | isGyroMotion(gyro, gyrothresh));
+}
 
 void setup() {
   //Initialize serial and wait for port to open:
@@ -330,15 +355,12 @@ void setup() {
   /*MPU6050*/
   mpu.initialize();
   devStatus = mpu.dmpInitialize();
+
   // supply your own gyro offsets here, scaled for min sensitivity
   mpu.setXGyroOffset(220);
   mpu.setYGyroOffset(76);
   mpu.setZGyroOffset(-85);
   mpu.setZAccelOffset(1788); // 1688 factory default for my test chip
-  
-  mpu.setMotionDetectionDuration(1);
-  mpu.setMotionDetectionThreshold(1);
-  mpu.setIntMotionEnabled(1); //setup motion check
 
   // make sure it worked (returns 0 if so)
   if (devStatus == 0) {
@@ -519,7 +541,7 @@ void loop() {
     bndl.add(concat).add(current_side);
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/debug");
-    bndl.add(concat).add(motion_int);//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
+    bndl.add(concat).add(motion_int);
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
@@ -590,7 +612,8 @@ void loop() {
     mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
     mpu.dmpGetGyro(&gyro, fifoBuffer);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-    motion_int = mpu.getIntMotionStatus();
+
+    motion_int = isMotion(&aa, accelthresh, &gyro, gyrothresh);
   }
   //=========================================================================//
 }
