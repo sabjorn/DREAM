@@ -122,7 +122,9 @@ float scaleInt16(int16_t x){
     return 0;
 }
 
-/*Neopixel Control Callback*/
+/*OSC Callbacks*/
+
+//Neopixel Control Callback
 void leds(OSCMessage &msg)
 {
   uint8_t n, r, g, b = 0;
@@ -157,9 +159,32 @@ void leds(OSCMessage &msg)
   }
   strip.show();
 }
-//===========================================================================//
 
-//Callback to change schedule_time
+void brightness(OSCMessage &msg)
+{
+  int temp = 0;
+  if (msg.isInt(0)){
+    if (msg.getInt(0) < 0)
+      temp = 0;
+    else if (msg.getInt(0) > 255)
+      temp = 255;
+    else
+      temp = msg.getInt(0);
+  }
+  else if(msg.isFloat(0)){
+    if (msg.getFloat(0) < 0)
+      temp = 0;
+    else if (msg.getFloat(0) > 1.)
+      temp = 255;
+    else
+      temp = msg.getFloat(0) * 255;
+  }
+
+  strip.setBrightness(temp);
+  strip.show();
+}
+
+//change schedule_time
 void update_interval(OSCMessage &msg)
 {
   if(msg.isInt(0))
@@ -176,6 +201,7 @@ void reset(OSCMessage &msg)
 {
   ESP.reset();
 }
+//===========================================================================//
 
 // figure out which side the box is on
 //this should likely be an object which has an update to see if anything changes
@@ -445,6 +471,7 @@ void loop() {
       OSCin.dispatch("/leds", leds);
       OSCin.dispatch("/update", update_interval);
       OSCin.dispatch("/reset", reset);
+      OSCin.dispatch("/alpha", brightness);
     }
   }
   //=========================================================================//
