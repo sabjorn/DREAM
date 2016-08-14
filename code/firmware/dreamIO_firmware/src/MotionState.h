@@ -14,6 +14,7 @@ Ideally it would run on the MPU6050.
 #include "I2Cdev.h"
 #include "helper_3dmath.h" //needed for definition of types
 #include "ImuDataContainer.h"
+#include "OSCMessage.h"
 
 #define sensitivity float(2000) //the curent sensativity of the gyroscope
 
@@ -32,6 +33,12 @@ class MotionState{
         void setAccelThresh(float accelThresh);
         void setGyroThresh(float gyroThresh);
         void setMotionDecay(long decayTime);
+
+        //OSC endpoint versions
+        // currently not supported (callback doesn't like methods!)
+        void setAccelThresh(OSCMessage &msg);
+        void setGyroThresh(OSCMessage &msg);
+        void setMotionDecay(OSCMessage &msg);
 
         // accessors
         uint8_t whichSide(); //checks the side the cube is on

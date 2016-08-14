@@ -225,6 +225,26 @@ void reset(OSCMessage &msg)
 {
   ESP.reset();
 }
+
+void accelThresh(OSCMessage &msg){
+  if(msg.isFloat(0))
+    self.setAccelThresh(msg.getFloat(0));
+}
+
+void gyroThresh(OSCMessage &msg){
+  if(msg.isFloat(0))
+    self.setGyroThresh(msg.getFloat(0));
+}
+
+void motionDecay(OSCMessage &msg){
+  int temp = 0;
+  if(msg.isInt(0))
+    temp = msg.getInt(0);
+  else if(msg.isFloat(0))
+    temp = int(msg.getFloat(0));
+
+  self.setMotionDecay(temp);
+}
 //===========================================================================//
 
 // figure out which side the box is on
@@ -591,6 +611,10 @@ void loop() {
       OSCin.dispatch("/reset", reset);
       OSCin.dispatch("/alpha", brightness);
       OSCin.dispatch("/hsl", hsl);
+      OSCin.dispatch("/accelThresh", accelThresh);
+      OSCin.dispatch("/gyroThresh", gyroThresh);
+      OSCin.dispatch("/motionDecay", motionDecay);
+
     }
   }
   //=========================================================================//
@@ -626,8 +650,6 @@ void loop() {
     mpu.dmpGetLinearAccel(&mpu_data.aaReal, &mpu_data.aa, &mpu_data.gravity);
     mpu.dmpGetGyro(&mpu_data.gyro, fifoBuffer);
     mpu.dmpGetYawPitchRoll(mpu_data.ypr, &mpu_data.q, &mpu_data.gravity);
-
-    //motion_int = isMotion(&aa, accelthresh, &gyro, gyrothresh);
   }
   //=========================================================================//
 }

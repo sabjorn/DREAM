@@ -71,12 +71,30 @@ void MotionState::setAccelThresh(float accelThresh)
     _accelThresh = accelThresh;
 }
 
+void MotionState::setAccelThresh(OSCMessage &msg)
+{
+    if(msg.isFloat(0))
+        _accelThresh = msg.getFloat(0);
+}
+
 void MotionState::setGyroThresh(float gyroThresh){
     _gyroThresh = gyroThresh;
 }
 
+void MotionState::setGyroThresh(OSCMessage &msg){
+    if(msg.isFloat(0))
+        _gyroThresh = msg.getFloat(0);
+}
+
 void MotionState::setMotionDecay(long decayTime){
     _motionDecay = decayTime;
+}
+
+void MotionState::setMotionDecay(OSCMessage &msg){
+    if(msg.isInt(0))
+        _motionDecay = msg.getInt(0);
+    else if(msg.isFloat(0))
+        _motionDecay = int(msg.getFloat(0));
 }
 
 
