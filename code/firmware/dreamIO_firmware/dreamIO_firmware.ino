@@ -611,14 +611,14 @@ void loop() {
     // (this lets us immediately read more without waiting for an interrupt)
     fifoCount -= packetSize;
 
-    mpu.dmpGetQuaternion(&q, fifoBuffer);
-    mpu.dmpGetGravity(&gravity, &q);
-    mpu.dmpGetAccel(&aa, fifoBuffer);
-    mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
-    mpu.dmpGetGyro(&gyro, fifoBuffer);
-    mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+    mpu.dmpGetQuaternion(&mpu_data.q, fifoBuffer);
+    mpu.dmpGetGravity(&mpu_data.gravity, &mpu_data.q);
+    mpu.dmpGetAccel(&mpu_data.aa, fifoBuffer);
+    mpu.dmpGetLinearAccel(&mpu_data.aaReal, &mpu_data.aa, &mpu_data.gravity);
+    mpu.dmpGetGyro(&mpu_data.gyro, fifoBuffer);
+    mpu.dmpGetYawPitchRoll(mpu_data.ypr, &mpu_data.q, &mpu_data.gravity);
 
-    motion_int = isMotion(&aa, accelthresh, &gyro, gyrothresh);
+    //motion_int = isMotion(&aa, accelthresh, &gyro, gyrothresh);
   }
   //=========================================================================//
 }

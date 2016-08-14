@@ -33,32 +33,32 @@ void MotionState::update(){
 }
 
 void MotionState::_updateSide(){
-    if(_ptrgravity->z < -.8)
+    if(_ptrImuData->gravity.z < -.8)
         _side = 0; //bottom down
-    else if(_ptrgravity->z > .8)
+    else if(_ptrImuData->gravity.z > .8)
         _side = 1; //top
-    else if(_ptrgravity->x < -.8)
+    else if(_ptrImuData->gravity.x < -.8)
         _side = 2; //back
-    else if(_ptrgravity->x > .8)
+    else if(_ptrImuData->gravity.x > .8)
         _side = 3; //front
-    else if(_ptrgravity->y < -.8)
+    else if(_ptrImuData->gravity.y < -.8)
         _side = 4; //left
-    else if(_ptrgravity->y > .8)
+    else if(_ptrImuData->gravity.y > .8)
         _side = 5; //right
     else
         _side = -1; //error!
 }
 
 void MotionState::_updateGyro(){
-    _gyro[0] = _ptrgyro->x/sensitivity;
-    _gyro[1] = _ptrgyro->y/sensitivity;
-    _gyro[2] = _ptrgyro->z/sensitivity;
+    _gyro[0] = _ptrImuData->gyro.x/sensitivity;
+    _gyro[1] = _ptrImuData->gyro.y/sensitivity;
+    _gyro[2] = _ptrImuData->gyro.z/sensitivity;
 }
 
 void MotionState::_updateAccel(){
-    _accel[0] = MotionState::int16ToFloat(_ptraccel->x);
-    _accel[1] = MotionState::int16ToFloat(_ptraccel->y);
-    _accel[2] = MotionState::int16ToFloat(_ptraccel->z);
+    _accel[0] = MotionState::int16ToFloat(_ptrImuData->aaReal.x);
+    _accel[1] = MotionState::int16ToFloat(_ptrImuData->aaReal.y);
+    _accel[2] = MotionState::int16ToFloat(_ptrImuData->aaReal.z);
 }
 
 void MotionState::_updateMotion(){
