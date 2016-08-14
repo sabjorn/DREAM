@@ -23,6 +23,7 @@ Max patch uses CNMAT OSC externals*/
 #include <cstdint>
 
 #include "MotionState.h"
+#include "ImuDataContainer.h"
 
 /*Voltage Measurement*/
 // Voltage divider on ADC allows for a measurement of battery voltage.
@@ -65,6 +66,8 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 VectorInt16 gyro;
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+
+IMUData mpu_data; //replaces the above
 
 float gyrothresh = 0.005; //trigger for checking for activity
 float accelthresh = 0.100; //trigger for checking for activity
