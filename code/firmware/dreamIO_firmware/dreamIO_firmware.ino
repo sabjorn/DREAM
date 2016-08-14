@@ -75,6 +75,8 @@ float accelthresh = 0.100; //trigger for checking for activity
 #define sensitivity float(2000) //the curent sensativity of the gyroscop
 //===========================================================================//
 
+/*Internal Representation Object*/
+MotionState self;
 
 //enum for storing current box side
 enum sides{BOTTOM, TOP, BACK, FRONT, LEFT, RIGHT}; //currently unused but should be turned into object

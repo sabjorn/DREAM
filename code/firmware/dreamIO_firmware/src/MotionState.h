@@ -10,6 +10,7 @@ Ideally it would run on the MPU6050.
 #ifndef _MOTIONSTATE_H_
 #define _MOTIONSTATE_H_
 
+#include <math.h>
 #include "I2Cdev.h"
 #include "helper_3dmath.h" //needed for definition of types
 #include "ImuDataContainer.h"
@@ -25,17 +26,16 @@ class MotionState{
         MotionState();
         ~MotionState();
 
-        void initialize(IMUData *ImuData, long decayTime);
+        void initialize(IMUData *ImuData, float accelThresh, float gyroThresh, long decayTime);
         void update();
 
-        void setAccelThresh();
-        void setGyroThresh();
-        void setMotionDecay();
+        void setAccelThresh(float accelThresh);
+        void setGyroThresh(float gyroThresh);
+        void setMotionDecay(long decayTime);
 
         // accessors
         uint8_t whichSide(); //checks the side the cube is on
         uint8_t isMotion(); //checks if cube is moving
-        
         float * getGyro(); //scaled -1, 1
         float * getAccel(); //scaled -1, 1
         float * getYPR(); //scaled 0, 1 and only updates if there is motion
@@ -47,25 +47,26 @@ class MotionState{
         void _updateAccel();
         void _updateSide();
         void _updateMotion();
+        void _updateYPR();
 
-        // these come from outside the MPU6050 can fill them up
+        //comes from outside the MPU6050 can fill
         IMUData * _ptrImuData;
-        VectorInt16 * _ptraccel; //pointer to raw acceleration values
-        VectorInt16 * _ptrgyro; //pointer to raw gyroscope values
-        VectorFloat * _ptrgravity;
-        float * _ptrypr; //pointer to unalter ypr
 
+        //thresholds
+        float _accelThresh;
+        float _gyroThresh;
+
+        //internal representations
         float _accel[3];
         float _gyro[3];
         float _ypr[3];
         uint8_t _side;
-        
         uint8_t _motionFlag;
 
+        // for keeping track of things
         long _oldTime;
         long _motionDecay; //how long until motion is considered alive
-        float _accelThresh;
-        float _gyroThresh;
+        float _yprOffsets[3];
 };
 
 #endif /* _MOTIONSTATE_H_ */

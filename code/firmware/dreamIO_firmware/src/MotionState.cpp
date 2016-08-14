@@ -1,8 +1,6 @@
 #include "MotionState.h"
 
-MotionState::MotionState():
-            _motionFlag(0),
-            _oldTime(0){
+MotionState::MotionState(){
 
 }
 
@@ -10,9 +8,24 @@ MotionState::~MotionState(){
 
 }
 
-void MotionState::initialize(IMUData *ImuData, long decayTime){
+void MotionState::initialize(IMUData *ImuData, float accelThresh, float gyroThresh, long decayTime){
+    
     _ptrImuData = ImuData;
+    _accelThresh = accelThresh;
+    _gyroThresh = gyroThresh;
     _motionDecay = decayTime;
+
+    _side = 0;
+    _motionFlag = 0;
+    _oldTime = 0;
+
+    for(uint8_t i = 0; i < 3; ++i){
+        _accel[i] = 0;
+        _gyro[i] = 0;
+        _ypr[i] = 0;
+        _yprOffsets[i] = 0;
+    }
+
 }
 
 void MotionState::update(){
@@ -29,8 +42,44 @@ void MotionState::update(){
     _updateMotion();
 
     //update YPR
+    _updateYPR();
 
 }
+
+uint8_t MotionState::whichSide(){
+    return _side;
+}
+
+uint8_t MotionState::isMotion(){
+    return _motionFlag;
+}
+
+float * MotionState::getGyro(){
+    return _gyro;
+}
+
+float * MotionState::getAccel(){
+    return _accel;
+}
+
+float * MotionState::getYPR(){
+    return _ypr;
+}
+
+void MotionState::setAccelThresh(float accelThresh)
+{
+    _accelThresh = accelThresh;
+}
+
+void MotionState::setGyroThresh(float gyroThresh){
+    _gyroThresh = gyroThresh;
+}
+
+void MotionState::setMotionDecay(long decayTime){
+    _motionDecay = decayTime;
+}
+
+
 
 void MotionState::_updateSide(){
     if(_ptrImuData->gravity.z < -.8)
@@ -62,19 +111,40 @@ void MotionState::_updateAccel(){
 }
 
 void MotionState::_updateMotion(){
-    _motionFlag = 0; //just in case
-
     int accu = 0;
-    for(uint8_t i = 0; i < 3; i++){
-        accu += (_accel[i] > _accelThresh);
-        accu += (_gyro[i] > _gyroThresh);
+    for(uint8_t i = 0; i < 3; ++i){
+        accu += (abs(_accel[i]) > _accelThresh);
+        accu += (abs(_gyro[i]) > _gyroThresh);
     }
-
     _motionFlag = (accu > 0);
+
+    if(_motionFlag)
+        _oldTime = millis(); //clock resets from motion
+    else if(!_motionFlag){
+        long now = millis();
+        if (now - _oldTime < _motionDecay)
+            _motionFlag = 1; //keep 1 if under time
+    }
 }
 
+void MotionState::_updateYPR(){
+    for(uint8_t i = 0; i < 3; ++i){
+        //scale [0, 1]
+        float scale = 0;
+        if (i == 0)
+            scale = ((_ptrImuData->ypr[i] / M_PI) + 1) / 2;
+        else
+            scale = ((_ptrImuData->ypr[i] / (M_PI/2.)) + 1) / 2;
 
+        if(_motionFlag)
+            _ypr[i] = fmod(scale + _yprOffsets[i], 1);
+        else
+            _yprOffsets[i] = _ypr[i] - scale;
+    }
 
+}
+
+/*Static Members*/
 // converts Int16 to [-1, 1]
 float MotionState::int16ToFloat(int16_t x){
   if(x > 0)
