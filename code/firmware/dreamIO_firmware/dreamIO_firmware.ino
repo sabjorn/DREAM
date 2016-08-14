@@ -69,7 +69,7 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 
 IMUData mpu_data; //replaces the above
 
-float gyrothresh = 0.005; //trigger for checking for activity
+float gyrothresh = 0.003; //trigger for checking for activity
 float accelthresh = 0.100; //trigger for checking for activity
 
 #define sensitivity float(2000) //the curent sensativity of the gyroscop

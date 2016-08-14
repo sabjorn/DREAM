@@ -29,6 +29,17 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"comment" : "motion",
+					"id" : "obj-39",
+					"maxclass" : "outlet",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 553.0, 354.5, 25.0, 25.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-36",
@@ -141,7 +152,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 587.0, 354.5, 25.0, 25.0 ]
+					"patching_rect" : [ 629.0, 354.5, 25.0, 25.0 ]
 				}
 
 			}
@@ -354,7 +365,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 549.571411, 354.5, 25.0, 25.0 ]
+					"patching_rect" : [ 591.0, 354.5, 25.0, 25.0 ]
 				}
 
 			}
@@ -507,10 +518,10 @@
 					"id" : "obj-5",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 8,
-					"outlettype" : [ "", "", "", "", "", "", "", "" ],
-					"patching_rect" : [ 325.0, 97.0, 281.0, 20.0 ],
-					"text" : "OSC-route /time /batt /ypr /gyro /accel /side /debug"
+					"numoutlets" : 9,
+					"outlettype" : [ "", "", "", "", "", "", "", "", "" ],
+					"patching_rect" : [ 325.0, 97.0, 323.0, 20.0 ],
+					"text" : "OSC-route /time /batt /ypr /gyro /accel /side /motion /debug"
 				}
 
 			}
@@ -862,7 +873,7 @@
 					"destination" : [ "obj-10", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-5", 6 ]
+					"source" : [ "obj-5", 7 ]
 				}
 
 			}
@@ -880,7 +891,7 @@
 					"destination" : [ "obj-23", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-5", 7 ]
+					"source" : [ "obj-5", 8 ]
 				}
 
 			}
@@ -908,6 +919,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-5", 5 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-39", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-5", 6 ]
 				}
 
 			}

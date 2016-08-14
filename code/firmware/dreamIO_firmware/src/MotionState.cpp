@@ -136,10 +136,15 @@ void MotionState::_updateYPR(){
         else
             scale = ((_ptrImuData->ypr[i] / (M_PI/2.)) + 1) / 2;
 
-        if(_motionFlag)
-            _ypr[i] = MotionState::fakefmod(scale + _yprOffsets[i], 1);
-        else
-            _yprOffsets[i] = _ypr[i] - scale;
+        // This should stabilize the YPR measurements when not moving
+        // but right now it doesn't work.
+        // if(_motionFlag)
+        //     _ypr[i] = MotionState::fakefmod(scale + _yprOffsets[i], 1);
+        // else
+        //     _yprOffsets[i] = _ypr[i] - scale;
+
+        //'regular' YPR
+        _ypr[i] = scale;
     }
 
 }
