@@ -41,6 +41,7 @@ class MotionState{
         float * getYPR(); //scaled 0, 1 and only updates if there is motion
 
         static float int16ToFloat(int16_t x);
+        static float fakefmod(float in, float mod);
 
     private:
         void _updateGyro();

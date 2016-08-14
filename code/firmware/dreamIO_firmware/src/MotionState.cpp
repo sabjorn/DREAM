@@ -32,16 +32,16 @@ void MotionState::update(){
     //update Gyro
     _updateGyro();
 
-    //update Accel
+    // //update Accel
     _updateAccel();
 
-    //set side
+    // //set side
     _updateSide();
     
-    //check motion
+    // //check motion
     _updateMotion();
 
-    //update YPR
+    // //update YPR
     _updateYPR();
 
 }
@@ -137,7 +137,7 @@ void MotionState::_updateYPR(){
             scale = ((_ptrImuData->ypr[i] / (M_PI/2.)) + 1) / 2;
 
         if(_motionFlag)
-            _ypr[i] = fmod(scale + _yprOffsets[i], 1);
+            _ypr[i] = MotionState::fakefmod(scale + _yprOffsets[i], 1);
         else
             _yprOffsets[i] = _ypr[i] - scale;
     }
@@ -153,4 +153,8 @@ float MotionState::int16ToFloat(int16_t x){
     return float(x)/float(INT16_MIN);
   else
     return 0;
+}
+
+float MotionState::fakefmod(float in, float mod){
+    return ((int)(in * 100) % (int)(mod * 100))/100.0;
 }

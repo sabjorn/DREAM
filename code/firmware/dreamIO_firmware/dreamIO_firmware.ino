@@ -337,6 +337,8 @@ bool isMotion(VectorInt16 *aa, float aathresh, VectorInt16 *gyro, float gyrothre
 }
 
 void setup() {
+  self.initialize(&mpu_data, accelthresh, gyrothresh, 500);
+
   //Initialize serial and wait for port to open:
   Serial.begin(115200); 
   while (!Serial) {
@@ -520,6 +522,8 @@ void loop() {
     }
 
     current_side = get_side(current_side, &gravity);
+
+    self.update();
 
     /*OSC Out*/
     //declare a bundle
