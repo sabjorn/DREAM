@@ -23,6 +23,7 @@ Max patch uses CNMAT OSC externals*/
 #include <cstdint>
 
 #include "MotionState.h"
+
 /*Voltage Measurement*/
 // Voltage divider on ADC allows for a measurement of battery voltage.
 // maybe these don't need to be preprocessor
