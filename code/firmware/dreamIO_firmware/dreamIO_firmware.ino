@@ -537,22 +537,25 @@ void loop() {
     bndl.add(concat).add((int32_t)millis()); //time since active :: indicates a connection
     
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/ypr");
-    bndl.add(concat).add(ypr[0]).add(ypr[1]).add(ypr[2]); //yaw/pitch/roll
+    bndl.add(concat).add(self.getYPR()[0]).add(self.getYPR()[1]).add(self.getYPR()[2]); //yaw/pitch/roll
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/accel");
-    bndl.add(concat).add(scaleInt16(aaReal.x)).add(scaleInt16(aaReal.y)).add(scaleInt16(aaReal.z)); //raw acceleration
+    bndl.add(concat).add(self.getAccel()[0]).add(self.getAccel()[1]).add(self.getAccel()[2]); //raw acceleration
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/gyro");
-    bndl.add(concat).add(float(gyro.z/sensitivity)).add(float(gyro.y/sensitivity)).add(float(gyro.x/sensitivity)); //raw gyroscope
+    bndl.add(concat).add(self.getGyro()[2]).add(self.getGyro()[1]).add(self.getGyro()[0]); //raw gyroscope
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/batt");
     bndl.add(concat).add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
     
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/side");
-    bndl.add(concat).add(current_side);
+    bndl.add(concat).add(self.whichSide());
+
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/motion");
+    bndl.add(concat).add(self.isMotion());
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/debug");
-    bndl.add(concat).add(motion_int);
+    bndl.add(concat).add(0);
 
     Udp.beginPacket(outIp, outPort);
     bndl.send(Udp); // send the bytes to the SLIP stream
