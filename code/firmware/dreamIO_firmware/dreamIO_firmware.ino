@@ -20,6 +20,10 @@ Max patch uses CNMAT OSC externals*/
 #include "wifiCred.h" //used to store SSID and PASS
 
 #include <Math.h>
+#include <cstdint>
+
+#include "MotionState.h"
+#include "ImuDataContainer.h"
 
 /*Voltage Measurement*/
 // Voltage divider on ADC allows for a measurement of battery voltage.
@@ -32,6 +36,8 @@ Max patch uses CNMAT OSC externals*/
 #define V_MAX float(4.2) //the theoretical maximum voltage of LiPo
 #define SCALED_V_MIN float(V_SCALE * V_MIN / V_RES)
 #define SCALED_V_MAX float(V_SCALE * V_MAX / V_RES)
+
+#define abs(x) ((x)>0?(x):-(x)) //taken from STD
 
 /*MPU*/
 #include "I2Cdev.h"
@@ -57,12 +63,20 @@ VectorInt16 aa;         // [x, y, z]            accel sensor measurements
 VectorInt16 aaReal;     // [x, y, z]            gravity-free accel sensor measurements
 VectorInt16 aaWorld;    // [x, y, z]            world-frame accel sensor measurements
 VectorFloat gravity;    // [x, y, z]            gravity vector
+VectorInt16 gyro;
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+
+IMUData mpu_data; //replaces the above
+
+float gyrothresh = 0.003; //trigger for checking for activity
+float accelthresh = 0.095; //trigger for checking for activity
+
+#define sensitivity float(2000) //the curent sensativity of the gyroscop
 //===========================================================================//
 
-//enum for storing current box side
-enum sides{BOTTOM, TOP, BACK, FRONT, LEFT, RIGHT}; //currently unused but should be turned into object
+/*Internal Representation Object*/
+MotionState self;
 
 //MPU soft-wire
 #define SDA_PIN 13
@@ -86,7 +100,8 @@ const unsigned int outPort = 9999;
 //===========================================================================//
 
 /*UDP Scheduler*/
-long old_time, curret_time = 0;
+bool transmit_flag = 1;
+long old_time, current_time = 0;
 long schedule_time = 25; //interval between UDP sends *NEEDED! Will crash otherwise
 uint8_t old_val = 0;
 //===========================================================================//
@@ -107,7 +122,9 @@ void dmpDataReady() {
 }
 //===========================================================================//
 
-/*Neopixel Control Callback*/
+/*OSC Callbacks*/
+
+//Neopixel Control Callback
 void leds(OSCMessage &msg)
 {
   uint8_t n, r, g, b = 0;
@@ -142,9 +159,42 @@ void leds(OSCMessage &msg)
   }
   strip.show();
 }
-//===========================================================================//
 
-//Callback to change schedule_time
+// hsl endpoint
+void hsl(OSCMessage &msg){
+  uint16_t rgb[3];
+
+  hslToRgb(msg.getFloat(0), msg.getFloat(1), msg.getFloat(2), rgb);
+  for (uint16_t i = 0; i < NUMPIX; i++)
+      strip.setPixelColor(i, rgb[0], rgb[1], rgb[2]);
+  strip.show();
+}
+
+void brightness(OSCMessage &msg)
+{
+  int temp = 0;
+  if (msg.isInt(0)){
+    if (msg.getInt(0) < 0)
+      temp = 0;
+    else if (msg.getInt(0) > 255)
+      temp = 255;
+    else
+      temp = msg.getInt(0);
+  }
+  else if(msg.isFloat(0)){
+    if (msg.getFloat(0) < 0)
+      temp = 0;
+    else if (msg.getFloat(0) > 1.)
+      temp = 255;
+    else
+      temp = msg.getFloat(0) * 255;
+  }
+
+  strip.setBrightness(temp);
+  strip.show();
+}
+
+//change schedule_time
 void update_interval(OSCMessage &msg)
 {
   if(msg.isInt(0))
@@ -152,7 +202,10 @@ void update_interval(OSCMessage &msg)
   if(msg.isFloat(0))
     schedule_time = long(msg.getFloat(0));
 
-  if (schedule_time < 10)
+  transmit_flag = 1;
+  if (schedule_time == 0)
+    transmit_flag = 0;
+  else if (schedule_time < 10)
     schedule_time = 10;
 }
 
@@ -162,32 +215,96 @@ void reset(OSCMessage &msg)
   ESP.reset();
 }
 
-// figure out which side the box is on
-//this should likely be an object which has an update to see if anything changes
-// possibly with a status that the box is floating? if this method exists, then the side
-// would only be calculated if the box was relatively stable
-int32_t current_side = 0;
-int32_t get_side(int32_t current_side_, VectorFloat* gravity){
-  if(gravity->z < -.8)
-    current_side_ = 0; //bottom down
-  else if(gravity->z > .8)
-    current_side_ = 1; //top
-  else if(gravity->x < -.8)
-    current_side_ = 2; //back
-  else if(gravity->x > .8)
-    current_side_ = 3; //front
-  else if(gravity->y < -.8)
-    current_side_ = 4; //left
-  else if(gravity->y > .8)
-    current_side_ = 5; //right
-  else
-    current_side_ = -1;
-
-  return current_side_;
+void accelThresh(OSCMessage &msg){
+  if(msg.isFloat(0))
+    self.setAccelThresh(msg.getFloat(0));
 }
 
+void gyroThresh(OSCMessage &msg){
+  if(msg.isFloat(0))
+    self.setGyroThresh(msg.getFloat(0));
+}
+
+void motionDecay(OSCMessage &msg){
+  int temp = 0;
+  if(msg.isInt(0))
+    temp = msg.getInt(0);
+  else if(msg.isFloat(0))
+    temp = int(msg.getFloat(0));
+
+  self.setMotionDecay(temp);
+}
+//===========================================================================//
+
+void hslToRgb(double h, double sl, double l, uint16_t *rgb)
+{
+      double v;
+      double r,g,b;
+
+      if (h == 1.)
+        h = 0.;
+
+      r = l;   // default to grey
+      g = l;
+      b = l;
+      v = (l <= 0.5) ? (l * (1.0 + sl)) : (l + sl - l * sl);
+      if (v > 0)
+      {
+            double m;
+            double sv;
+            int sextant;
+            double fract, vsf, mid1, mid2;
+
+            m = l + l - v;
+            sv = (v - m ) / v;
+            h *= 6.0;
+            sextant = (int)h;
+            fract = h - sextant;
+            vsf = v * sv * fract;
+            mid1 = m + vsf;
+            mid2 = v - vsf;
+            switch (sextant)
+            {
+                  case 0:
+                        r = v;
+                        g = mid1;
+                        b = m;
+                        break;
+                  case 1:
+                        r = mid2;
+                        g = v;
+                        b = m;
+                        break;
+                  case 2:
+                        r = m;
+                        g = v;
+                        b = mid1;
+                        break;
+                  case 3:
+                        r = m;
+                        g = mid2;
+                        b = v;
+                        break;
+                  case 4:
+                        r = mid1;
+                        g = m;
+                        b = v;
+                        break;
+                  case 5:
+                        r = v;
+                        g = m;
+                        b = mid2;
+                        break;
+            }
+      }
+      rgb[0] = r * 255.0f;
+      rgb[1] = g * 255.0f;
+      rgb[2] = b * 255.0f;
+}
 
 void setup() {
+  self.initialize(&mpu_data, accelthresh, gyrothresh, 500); //initialize physical state representation
+
   //Initialize serial and wait for port to open:
   Serial.begin(115200); 
   while (!Serial) {
@@ -213,6 +330,7 @@ void setup() {
   /*MPU6050*/
   mpu.initialize();
   devStatus = mpu.dmpInitialize();
+
   // supply your own gyro offsets here, scaled for min sensitivity
   mpu.setXGyroOffset(220);
   mpu.setYGyroOffset(76);
@@ -353,24 +471,14 @@ void setup() {
 void loop() {
   ArduinoOTA.handle(); //check OTA
   
-  if (!dmpReady) return; // if programming failed, don't try to do anything
+  //if (!dmpReady) return; // if programming failed, don't try to do anything
 
   /*Scheduler*/
   //possible make object in future  
-  curret_time = millis(); 
+  current_time = millis(); 
   
   // wait for MPU interrupt or extra packet(s) available
-  while (!mpuInterrupt && fifoCount < packetSize && curret_time - old_time > schedule_time) {
-    // convert ypr to [0, 1]
-    for (int i = 0; i < 3; ++i){
-      if (i == 0)
-        ypr[i] = ((ypr[i] / M_PI) + 1) / 2;
-      else
-        ypr[i] = ((ypr[i] / (M_PI/2.)) + 1) / 2;
-    }
-
-    current_side = get_side(current_side, &gravity);
-
+  if (!mpuInterrupt && fifoCount < packetSize && current_time - old_time > schedule_time && transmit_flag) {
     /*OSC Out*/
     //declare a bundle
     OSCBundle bndl;
@@ -383,19 +491,28 @@ void loop() {
     bndl.add(concat).add((int32_t)millis()); //time since active :: indicates a connection
     
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/ypr");
-    bndl.add(concat).add(ypr[0]).add(ypr[1]).add(ypr[2]); // yaw/pitch/roll
+    bndl.add(concat).add(self.getYPR()[0]).add(self.getYPR()[1]).add(self.getYPR()[2]); //yaw/pitch/roll
+
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/accel");
+    bndl.add(concat).add(self.getAccel()[0]).add(self.getAccel()[1]).add(self.getAccel()[2]); //raw acceleration
+
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/gyro");
+    bndl.add(concat).add(self.getGyro()[2]).add(self.getGyro()[1]).add(self.getGyro()[0]); //raw gyroscope
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/batt");
     bndl.add(concat).add(float((analogRead(A0) >> 2)-SCALED_V_MIN)/(SCALED_V_MAX - SCALED_V_MIN)); //battery voltage [0,1]
     
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/side");
-    bndl.add(concat).add(current_side);
+    bndl.add(concat).add(self.whichSide()).add(self.sideValue());
+
+    sprintf(concat, "/%06x%s", ESP.getChipId(), "/motion");
+    bndl.add(concat).add((int32_t)self.isMotion());
 
     sprintf(concat, "/%06x%s", ESP.getChipId(), "/debug");
-    bndl.add(concat).add(int(pack_count));//.add(ESP.getFlashChipSize());//.add(uint64_t(ESP.getFlashChipRealSize())).add(uint64_t(ESP.getFlashChipSpeed()));
+    bndl.add(concat).add(mpu_data.gravity.x).add(mpu_data.gravity.y).add(mpu_data.gravity.z);
 
     Udp.beginPacket(outIp, outPort);
-    bndl.send(Udp); // send the bytes to the SLIP stream
+    bndl.send(Udp); // send the bytes to the SLIP stream  
     Udp.endPacket(); // mark the end of the OSC Packet
     bndl.empty(); // empty the bundle to free room for a new one
     //=======================================================================//
@@ -404,7 +521,7 @@ void loop() {
     old_time = millis();
   }
   //=========================================================================//
-
+  /*FIX THIS TO ONLY BE BUNDLE?*/
   /*OSC In*/
   #ifdef BUNDLE
     //Bundle example
@@ -426,6 +543,12 @@ void loop() {
       OSCin.dispatch("/leds", leds);
       OSCin.dispatch("/update", update_interval);
       OSCin.dispatch("/reset", reset);
+      OSCin.dispatch("/alpha", brightness);
+      OSCin.dispatch("/hsl", hsl);
+      OSCin.dispatch("/accelThresh", accelThresh);
+      OSCin.dispatch("/gyroThresh", gyroThresh);
+      OSCin.dispatch("/motionDecay", motionDecay);
+
     }
   }
   //=========================================================================//
@@ -455,9 +578,13 @@ void loop() {
     // (this lets us immediately read more without waiting for an interrupt)
     fifoCount -= packetSize;
 
-    mpu.dmpGetQuaternion(&q, fifoBuffer);
-    mpu.dmpGetGravity(&gravity, &q);
-    mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+    mpu.dmpGetQuaternion(&mpu_data.q, fifoBuffer);
+    mpu.dmpGetGravity(&mpu_data.gravity, &mpu_data.q);
+    mpu.dmpGetAccel(&mpu_data.aa, fifoBuffer);
+    mpu.dmpGetLinearAccel(&mpu_data.aaReal, &mpu_data.aa, &mpu_data.gravity);
+    mpu.dmpGetGyro(&mpu_data.gyro, fifoBuffer);
+    mpu.dmpGetYawPitchRoll(mpu_data.ypr, &mpu_data.q, &mpu_data.gravity);
+    self.update(); //update internal physical representation
   }
   //=========================================================================//
 }
