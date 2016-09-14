@@ -166,8 +166,8 @@ void reset(OSCMessage &msg)
 //this should likely be an object which has an update to see if anything changes
 // possibly with a status that the box is floating? if this method exists, then the side
 // would only be calculated if the box was relatively stable
-uint8_t current_side = 0;
-uint8_t get_side(uint8_t current_side_, VectorFloat* gravity){
+int32_t current_side = 0;
+int32_t get_side(int32_t current_side_, VectorFloat* gravity){
   if(gravity->z < -.8)
     current_side_ = 0; //bottom down
   else if(gravity->z > .8)
@@ -180,6 +180,8 @@ uint8_t get_side(uint8_t current_side_, VectorFloat* gravity){
     current_side_ = 4; //left
   else if(gravity->y > .8)
     current_side_ = 5; //right
+  else
+    current_side_ = -1;
 
   return current_side_;
 }
